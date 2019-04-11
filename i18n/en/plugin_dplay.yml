@@ -1,0 +1,5 @@
+en: 
+  plugin_splay:
+
+    help: "[file] - add first match to playlist and plays it" 
+    cur_lang: "Current language"
