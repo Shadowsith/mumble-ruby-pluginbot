@@ -11,4 +11,4 @@ plugin:
       options: ''
       prefixes: ''
       maxresults: 200
-    to_mp3: false
+    to_mp3: true
