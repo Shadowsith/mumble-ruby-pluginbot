@@ -1,6 +1,8 @@
 # This plugin requires mplayer
+require "./TextToSpeechHelper.rb"
 
-class GoogleTTSHelper
+# TODO requires check if mplayer and ffmpeg exists
+class GoogleTTSHelper < TextToSpeechHelper
   private
 
   REQUEST = "http://translate.google.com/translate_tts?ie=UTF-8&total=1&idx=0i" \
