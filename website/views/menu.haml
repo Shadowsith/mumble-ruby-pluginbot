@@ -4,14 +4,24 @@
       %img{:src => html.brand, :width => "30", :height => "30"}
     %a{:class => "navbar-brand", :href => "#"} Pluginbot
     %div{:class => "collapse navbar-collapse"}
-      %ul{:class => "navbar-nav"}
+      %ul{:class => "navbar-nav mr-auto"}
         %li{:class => "nav-item dropdown"}
           %a{:class => "nav-link dropdown-toggle", :href => "#", :id => "mdrop",
             :"data-toggle" => "dropdown", :"aria-haspopup" => "true", 
             :"aria-expanded" => "false"} Settings
           %div{:class => "dropdown-menu", :"aria-labelledby" => "mdrop"}
             %a{:class => "dropdown-item", :href => "/index"} Global
-            %a{:class => "dropdown-item", :href => "#"} MPD
+            %a{:class => "dropdown-item", :href => "/mpd"} MPD
             %a{:class => "dropdown-item", :href => "/youtube"} Youtube
+            %a{:class => "dropdown-item", :href => "/bandcamp"} Bandcamp
+            %a{:class => "dropdown-item", :href => "/mixcloud"} Mixcloud
+            %a{:class => "dropdown-item", :href => "/ektoplazm"} Ektoplazm
+            %a{:class => "dropdown-item", :href => "/soundcloud"} SoundCloud
+            %a{:class => "dropdown-item", :href => "/googletts"} GoogleTTS
+            %a{:class => "dropdown-item", :href => "/picotts"} PicoTTS
+            %a{:class => "dropdown-item", :href => "/idle"} Idle
         %li{:class => "nav-item"}
           %a{:class => "nav-link", :href => "#"} Help
+      %ul{:class => "navbar-nav ml-auto"}
+        %li{:class => "nav-item"}
+          %a{:class => "nav-link", :href => "/logout"} Logout

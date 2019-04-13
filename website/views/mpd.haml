@@ -1,0 +1,40 @@
+%h2 MPD settings:
+%div{:class => "form-group ml-1"}
+  %label Test pipe:
+  %select{:name => "testpipe", :class => "form-control"}
+    - if yml.mpd['testpipe'] == false
+      %option{:value => 0, :selected => "selected"} false
+    - else 
+      %option{:value => 0} false
+    - if yml.mpd['testpipe'] == true
+      %option{:value => 1, :selected => "selected"} true
+    - else 
+      %option{:value => 1} true
+
+%div{:class => "form-group ml-1"}
+  %label Volume:
+  %input{:name => "volume", :class => "form-control", :type => "number", :value => yml.mpd['volume']}
+
+%h4 Connetion:
+%div{:class => "form-group ml-1"}
+  %label Host:
+  %input{:name => "host", :class => "form-control", :value => yml.mpd['host']}
+%div{:class => "form-group ml-1"}
+  %label Port:
+  %input{:name => "port", :class => "form-control", :value => yml.mpd['port']}
+%div{:class => "form-group ml-1"}
+  %label Music folder:
+  %input{:name => "musicfolder", :class => "form-control", :value => yml.mpd['musicfolder']}
+
+%h4 Templates:
+%div{:class => "form-group ml-1"}
+  %label Enabled:
+  %input{:name => "enabled", :class => "form-control", :value => yml.mpd['template']['comment']['enabled']}
+%div{:class => "form-group ml-1"}
+  %label Disabled:
+  %input{:name => "disabled", :class => "form-control", :value => yml.mpd['template']['comment']['disabled']}
+
+
+
+
+

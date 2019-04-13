@@ -7,9 +7,9 @@
     = haml :menu
 
     %div{:class => "container-fluid mt-3"}
-      = haml :"#{@index_content}"
-
-      %button{:class => "btn btn-danger mt-2 mb-2"} Save changes
+      %form{:class => "form-signin", :method => "POST"}
+        = haml :"#{@index_content}"
+        %button{:class => "btn btn-danger mt-2 mb-5", :id => "submit"} Save changes
 
     %footer{:class => "fixed-bottom bg-danger text-center"}
       %a{:class => "text-light", 

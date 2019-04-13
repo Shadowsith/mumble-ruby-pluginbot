@@ -1,26 +1,23 @@
-%h2 Youtube Settings:
+%h2 Mixcloud Settings:
 %div{:class => "form-group ml-1"}
   %label Download folder:
   %input{:name => "folder_download", :class => "form-control", 
-  :value => yml.yt['folder']['download']}
+  :value => yml.mc['folder']['download']}
 %div{:class => "form-group ml-1"}
   %label Temp folder:
-  %input{:name => "folder_temp", :class => "form-control", :value => yml.yt['folder']['temp']}
-%div{:class => "form-group ml-1"}
-  %label Stream:
-  %input{:name => "stream", :class => "form-control", :value => yml.yt['stream']}
+  %input{:name => "folder_temp", :class => "form-control", :value => yml.mc['folder']['temp']}
 %div{:class => "form-group ml-1"}
   %label Download as MP3 file?
   %select{:name => "to_mp3", :class => "form-control"}
-    - if yml.yt['to_mp3'] == false
+    - if yml.mc['to_mp3'] == false
       %option{:value => 0, :selected => "selected"} false
     - else 
       %option{:value => 0} false
-    - if yml.yt['to_mp3'] == true
+    - if yml.mc['to_mp3'] == true
       %option{:value => 1, :selected => "selected"} true
     - else 
       %option{:value => 1} true
-%h4 Youtube-dl setting for Youtube:
+%h4 Youtube-dl settings for Mixcloud:
 %div{:class => "form-group ml-1"}
   %label Path to youtube-dl executable:
   %input{:name => "ytdl_path", :class => "form-control",
@@ -33,16 +30,3 @@
   %label Prefixes:
   %input{:name => "ytdl_prefixes", :class => "form-control", 
   :value => yml.yt_dl['prefixes']}
-%div{:class => "form-group ml-1"}
-  %label Max results:
-  %input{:name => "ytdl_maxresults", :class => "form-control", 
-  :type => "number", :value => yml.yt_dl['maxresults']}
-  
-
-
-
-
-
-
-
-

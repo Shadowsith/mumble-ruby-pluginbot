@@ -1,0 +1,11 @@
+%h2 Ektoplazm Settings:
+%div{:class => "form-group ml-1"}
+  %label Download folder:
+  %input{:name => "folder_download", :class => "form-control", 
+  :value => yml.ep['folder']['download']}
+%div{:class => "form-group ml-1"}
+  %label Temp folder:
+  %input{:name => "folder_temp", :class => "form-control", :value => yml.ep['folder']['temp']}
+%div{:class => "form-group ml-1"}
+  %label Prefixes:
+  %input{:name => "prefixes", :class => "form-control", :value => yml.ep['prefixes']}
