@@ -1,0 +1,98 @@
+%h2 Instance Settings
+%div{:class => "form-group ml-1"}
+  %label Path to bot yml config:
+  %input{:class => "form-control"}
+%div{:class => "form-group ml-1"}
+  %label Path to manage.sh:
+  %input{:class => "form-control"}
+%div{:class => "form-group ml-1"}
+  %label Path to temp directory:
+  %input{:class => "form-control"}
+%div{:class => "form-group ml-1"}
+  %label Path to log file:
+  %input{:class => "form-control"}
+%div{:class => "form-group ml-1"}
+  %label Cert folder:
+  %input{:class => "form-control"}
+%div{:class => "form-group ml-1"}
+  %label MPD Fileinfo:
+  %input{:class => "form-control"}
+%div{:class => "form-group ml-1"}
+  %label Path to logo:
+  %input{:class => "form-control"}
+
+%h4 Control
+%div{:class => "dropdown"}
+  %label Debug logs:
+  %br
+  %button{:class => "btn btn-default dropdown-toggle col-sm-2", :type => "button", 
+    :"data-toggle" => "dropdown"}
+    %ul{:class => "dropdown-menu", :role => "menu", :"aria-labelledby" => "menu1"}
+      %li{:role => "presentation"}
+        %a{:role => "menuitem", :tabindex => "-1", :href => "#"} true
+      %li{:role => "presentation"}
+        %a{:role => "menuitem", :tabindex => "-1", :href => "#"} false
+
+%h4 Mumble
+%div{:class => "form-group ml-1"}
+  %div{:class => "row"}
+    %div{:class => "col-sm-7"}
+      %label Nickname:
+    %div{:class => "col-sm-5"}
+      %label Password:
+  %div{:class => "row"}
+    %div{:class => "col-sm-7"}
+      %input{:class => "form-control"}
+    %div{:class => "col-sm-5"}
+      %input{:class => "form-control"}
+
+%div{:class => "form-group ml-1"}
+  %div{:class => "row"}
+    %div{:class => "col-sm-7"}
+      %label Mumble-Server Address:
+    %div{:class => "col-sm-5"}
+      %label Port:
+  %div{:class => "row"}
+    %div{:class => "col-sm-7"}
+      %input{:class => "form-control"}
+    %div{:class => "col-sm-5"}
+      %input{:class => "form-control"}
+
+%div{:class => "form-group ml-1"}
+  %div{:class => "row"}
+    %div{:class => "col-sm-6"}
+      %label Default channel:
+    %div{:class => "col-sm-4"}
+      %label Bitrate:
+    %div{:class => "col-sm-2"}
+      %label Use VBR:
+  %div{:class => "row"}
+    %div{:class => "col-sm-6"}
+      %input{:class => "form-control"}
+    %div{:class => "col-sm-4"}
+      %input{:class => "form-control"}
+    %div{:class => "col-sm-2"}
+      %input{:class => "form-control"}
+
+%h4 Logs
+%h4 User Config
+%div{:class => "form-group ml-1"}
+  %label Whitelisted:
+  %input{:class => "form-control"}
+
+%div{:class => "form-group ml-1"}
+  %label Superuser:
+  %input{:class => "form-control"}
+
+%div{:class => "form-group ml-1"}
+  %label Banned:
+  %input{:class => "form-control"}
+
+%div{:class => "form-group ml-1"}
+  %label Bound:
+  %input{:class => "form-control"}
+
+%h4 MPD
+%div{:class => "form-group ml-1"}
+  %label Bound:
+  %input{:class => "form-control"}

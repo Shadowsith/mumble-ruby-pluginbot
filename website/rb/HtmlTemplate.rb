@@ -1,3 +1,5 @@
+require 'yaml'
+
 class HtmlTemplate
   def initialize
     @bootstrap = "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
@@ -13,5 +15,5 @@ class HtmlTemplate
   end
 
   attr_reader :bootstrap, :bootstrapjs, :jquery, :style, :script
-  attr_reader :brand, :font, :favicon
+  attr_reader :brand, :font, :favicon, :test
 end

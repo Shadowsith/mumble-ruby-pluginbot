@@ -1,0 +1,44 @@
+%h2 Youtube Settings
+%h4 Global
+%div{:class => "form-group ml-1"}
+  %label Download folder:
+  %input{:class => "form-control", :value => yml.yt['folder']['download']}
+%div{:class => "form-group ml-1"}
+  %label Temp folder:
+  %input{:class => "form-control", :value => yml.yt['folder']['temp']}
+%div{:class => "form-group ml-1"}
+  %label Stream:
+  %input{:class => "form-control", :value => yml.yt['stream']}
+%div{:class => "form-group ml-1"}
+  %label Download as MP3 file?
+  %select{:id => "to_mp3", :class => "form-control"}
+    - if yml.yt['to_mp3'] == 0
+      %option{:value => 0, :selected => "selected"} false
+    - else 
+      %option{:value => 0} false
+    - if yml.yt['to_mp3'] == 1
+      %option{:value => 1, :selected => "selected"} true
+    - else 
+      %option{:value => 1} true
+%h4 Youtube-dl:
+%div{:class => "form-group ml-1"}
+  %label Path to youtbe-dl executable:
+  %input{:class => "form-control", :value => yml.yt_dl['path']}
+%div{:class => "form-group ml-1"}
+  %label Options:
+  %input{:class => "form-control", :value => yml.yt_dl['options']}
+%div{:class => "form-group ml-1"}
+  %label Prefixes:
+  %input{:class => "form-control", :value => yml.yt_dl['prefixes']}
+%div{:class => "form-group ml-1"}
+  %label Max results:
+  %input{:class => "form-control", :type => "number", :value => yml.yt_dl['maxresults']}
+  
+
+
+
+
+
+
+
+

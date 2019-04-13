@@ -1,0 +1,17 @@
+%header
+  %nav{:class => "navbar navbar-expand navbar-dark bg-danger"}
+    %a{:class => "navbar-brand", :href => "#"}
+      %img{:src => html.brand, :width => "30", :height => "30"}
+    %a{:class => "navbar-brand", :href => "#"} Pluginbot
+    %div{:class => "collapse navbar-collapse"}
+      %ul{:class => "navbar-nav"}
+        %li{:class => "nav-item dropdown"}
+          %a{:class => "nav-link dropdown-toggle", :href => "#", :id => "mdrop",
+            :"data-toggle" => "dropdown", :"aria-haspopup" => "true", 
+            :"aria-expanded" => "false"} Settings
+          %div{:class => "dropdown-menu", :"aria-labelledby" => "mdrop"}
+            %a{:class => "dropdown-item", :href => "/index"} Global
+            %a{:class => "dropdown-item", :href => "#"} MPD
+            %a{:class => "dropdown-item", :href => "/youtube"} Youtube
+        %li{:class => "nav-item"}
+          %a{:class => "nav-link", :href => "#"} Help
