@@ -16,8 +16,9 @@ class Pluginbot < Sinatra::Base
     usr = params['username']
     pwd = params['password']
     # dummy test 'login'
-    if (usr == 'hello' && pwd == 'world')
+    if (@@yml.login(usr, pwd))
       session['login'] = true
+      session['usr'] = usr
       redirect '/index'
     else 
       haml :login
@@ -38,6 +39,20 @@ class Pluginbot < Sinatra::Base
       @index_content = route
     end
 
+    isRouted = false
+
+    # dynamic bot sessions
+    for b in yml.bots 
+      if route == b['mumble']['name']
+        yml.sel_bot = b
+        isRouted = true
+        @index_content = 'global'
+        redirect '/index'
+        break
+      end
+    end
+
+    if (!isRouted)
     case route
       when 'login'
         redirect '/index' if session['login'] == true
@@ -67,11 +82,14 @@ class Pluginbot < Sinatra::Base
         haml :index
       when 'picotts'
         haml :index
-      when '/logout'
+      when 'logout'
         session['login'] = false
+        session['usr'] = nil
+        puts session
         redirect '/login'
       else 
         haml :login
+    end
     end
   end
   

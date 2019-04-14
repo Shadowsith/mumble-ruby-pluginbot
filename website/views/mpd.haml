@@ -1,4 +1,4 @@
-%h2 MPD settings:
+%h3 MPD:
 %div{:class => "form-group ml-1"}
   %label Test pipe:
   %select{:name => "testpipe", :class => "form-control"}
@@ -13,7 +13,8 @@
 
 %div{:class => "form-group ml-1"}
   %label Volume:
-  %input{:name => "volume", :class => "form-control", :type => "number", :value => yml.mpd['volume']}
+  %input.form-control-range{:name => "volume", :type => "range", 
+    :min => "0", :max => "100", :value => yml.mpd['volume']}
 
 %h4 Connetion:
 %div{:class => "form-group ml-1"}

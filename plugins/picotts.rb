@@ -56,13 +56,15 @@ class PicoTTS < Plugin
           text = "<br><span style='color:lightblue;'>" \
           "<b>All avalible languages for plang [lang]:</b></span><br>"
           for i in 0..@@lang.length - 1
-            text += @@lang.keys[i].to_s + " - " + @@ldef[@@lang.keys[i]] + "<br>"
+            text += 
+              @@lang.keys[i].to_s + " - " + @@ldef[@@lang.keys[i]] + "<br>"
           end
           privatemessage(text)
         end
       end
       if parts[0] == "pconf"
-        privatemessage("<br>#{I18n.t("plugin_picotts.cur_lang")}: " + getLang + "<br>")
+        privatemessage(
+          "<br>#{I18n.t("plugin_picotts.cur_lang")}: " + getLang + "<br>")
       end
     rescue Exception => ex
       privatemessage("PicoTTS #{I18n.t("global.error")}: " + ex.message)
@@ -77,15 +79,15 @@ class PicoTTS < Plugin
 
   def getLang
     data = YAML::load(File.open(CONFIG))
-    return data["lang"]
+    return data["plugin"]["picotts"]["lang"]
   end
 
   def setLang(lang)
     data = YAML::load(File.open(CONFIG))
     if @@lang[lang].empty?
-      data["lang"] = "en-US"
+      data["plugin"]["picotts"]["lang"] = "en-US"
     else
-      data["lang"] = lang
+      data["plugin"]["picotts"]["lang"] = lang
     end
     File.open(CONFIG, "w+") {
       |f|
@@ -101,6 +103,7 @@ class PicoTTS < Plugin
     @@lang["fr"] = "fr-FR"
     @@lang["it"] = "it-IT"
 
+    # TODO i18n support here
     @@ldef["de"] = "German"
     @@ldef["gb"] = "British English"
     @@ldef["us"] = "US English"

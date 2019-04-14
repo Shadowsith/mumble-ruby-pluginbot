@@ -1,0 +1,17 @@
+%h3 Idle
+%div{:class => "form-group ml-1"}
+  %label Max idle time:
+  %input{:name => "maxidletime", :class => "form-control", 
+  :value => yml.idl['maxidletime']}
+
+%div{:class => "form-group ml-1"}
+  %label Idle action:
+  %select{:name => "idleaction", :class => "form-control"}
+    - if yml.idl['idleaction'] == yml.idl['action']['deafen']
+      %option{:value => yml.idl['action']['deafen'], :selected => "selected"} deafen
+    - else 
+      %option{:value => 0} deafen
+    - if yml.idl['idleaction'] == yml.idl['action']['channel']
+      %option{:value => yml.idl['action']['channel'], :selected => "selected"} channel
+    - else 
+      %option{:value => yml.idl['action']['channel']} channel

@@ -1,6 +1,10 @@
-%h2 Pico TextToSpeech Settings:
+%h3 PicoTTS:
 %div{:class => "form-group ml-1"}
   %label Language:
-  %input{:name => "lang", :class => "form-control", 
-  :value => yml.picotts['lang']}
+  %select{:name => "lang", :class => "form-control"}
+    - yml.ptts["options"].each do |opt|
+      - if yml.ptts["lang"] == opt["lang"]
+        %option{:value => opt["lang"], :selected => "selected"} #{opt["desc"]}
+      - else 
+        %option{:value => opt["lang"]} #{opt["desc"]}
 

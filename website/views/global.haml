@@ -1,98 +1,79 @@
-%h2 Instance Settings
-%div{:class => "form-group ml-1"}
-  %label Path to bot yml config:
-  %input{:class => "form-control"}
-%div{:class => "form-group ml-1"}
-  %label Path to manage.sh:
-  %input{:class => "form-control"}
-%div{:class => "form-group ml-1"}
-  %label Path to temp directory:
-  %input{:class => "form-control"}
-%div{:class => "form-group ml-1"}
-  %label Path to log file:
-  %input{:class => "form-control"}
-%div{:class => "form-group ml-1"}
-  %label Cert folder:
-  %input{:class => "form-control"}
-%div{:class => "form-group ml-1"}
-  %label MPD Fileinfo:
-  %input{:class => "form-control"}
-%div{:class => "form-group ml-1"}
-  %label Path to logo:
-  %input{:class => "form-control"}
+%h2 #{yml.sel_bot['mumble']['name']} Settings
+%div.form-group.ml-1
+  %label Debug:
+  %select.form-control
+%div.form-group.ml-1
+  %label Language:
+  %input.form-control
+%h4 Main
+%div.form-group.ml-1
+  %label Logfile:
+  %input.form-control
+%div.form-group.ml-1
+  %label Ducking:
+  %select.form-control
+%div.form-group.ml-1
+  %label Automute if alone:
+  %select.form-control
+%div.form-group.ml-1
+  %label Stop on unregistered:
+  %select.form-control
+%div.form-group.ml-1
+  %label Whitelist enabled:
+  %select.form-control
+%div.form-group.ml-1
+  %label File info:
+  %input.form-control
 
 %h4 Control
-%div{:class => "dropdown"}
-  %label Debug logs:
-  %br
-  %button{:class => "btn btn-default dropdown-toggle col-sm-2", :type => "button", 
-    :"data-toggle" => "dropdown"}
-    %ul{:class => "dropdown-menu", :role => "menu", :"aria-labelledby" => "menu1"}
-      %li{:role => "presentation"}
-        %a{:role => "menuitem", :tabindex => "-1", :href => "#"} true
-      %li{:role => "presentation"}
-        %a{:role => "menuitem", :tabindex => "-1", :href => "#"} false
+%div.form-group.ml-1
+  %label Command sign:
+  %input.form-control
+%div.form-group.ml-1
+  %label Private only:
+  %select.form-control
+%div.form-group.ml-1
+  %label Registered only:
+  %select.form-control
+%div.form-group.ml-1
+  %label Historysize:
+  %select.form-control
+
+%h4 User Config
+%div.form-group.ml-1
+  %label Whitelisted:
+  %input.form-control
+%div.form-group.ml-1
+  %label Superuser:
+  %input.form-control
+%div.form-group.ml-1
+  %label Banned:
+  %input.form-control
+%div.form-group.ml-1
+  %label Bound:
+  %input.form-control
 
 %h4 Mumble
-%div{:class => "form-group ml-1"}
-  %div{:class => "row"}
-    %div{:class => "col-sm-7"}
-      %label Nickname:
-    %div{:class => "col-sm-5"}
-      %label Password:
-  %div{:class => "row"}
-    %div{:class => "col-sm-7"}
-      %input{:class => "form-control"}
-    %div{:class => "col-sm-5"}
-      %input{:class => "form-control"}
+%div.form-group.ml-1
+  %label Botname:
+  %input.form-control{:value => yml.sel_bot['mumble']['name']}
+%div.form-group.ml-1
+  %label Murmur Server:
+  %input.form-control
+%div.form-group.ml-1
+  %label Port:
+  %input.form-control
+%div.form-group.ml-1
+  %label Server password:
+  %input.form-control
+%div.form-group.ml-1
+  %label Default Channel:
+  %input.form-control
+%div.form-group.ml-1
+  %label Use VBR:
+  %input.form-control
+%div.form-group.ml-1
+  %label Bitrate:
+  %input{:class => "form-control", :type => "number"}
 
-%div{:class => "form-group ml-1"}
-  %div{:class => "row"}
-    %div{:class => "col-sm-7"}
-      %label Mumble-Server Address:
-    %div{:class => "col-sm-5"}
-      %label Port:
-  %div{:class => "row"}
-    %div{:class => "col-sm-7"}
-      %input{:class => "form-control"}
-    %div{:class => "col-sm-5"}
-      %input{:class => "form-control"}
 
-%div{:class => "form-group ml-1"}
-  %div{:class => "row"}
-    %div{:class => "col-sm-6"}
-      %label Default channel:
-    %div{:class => "col-sm-4"}
-      %label Bitrate:
-    %div{:class => "col-sm-2"}
-      %label Use VBR:
-  %div{:class => "row"}
-    %div{:class => "col-sm-6"}
-      %input{:class => "form-control"}
-    %div{:class => "col-sm-4"}
-      %input{:class => "form-control"}
-    %div{:class => "col-sm-2"}
-      %input{:class => "form-control"}
-
-%h4 Logs
-%h4 User Config
-%div{:class => "form-group ml-1"}
-  %label Whitelisted:
-  %input{:class => "form-control"}
-
-%div{:class => "form-group ml-1"}
-  %label Superuser:
-  %input{:class => "form-control"}
-
-%div{:class => "form-group ml-1"}
-  %label Banned:
-  %input{:class => "form-control"}
-
-%div{:class => "form-group ml-1"}
-  %label Bound:
-  %input{:class => "form-control"}
-
-%h4 MPD
-%div{:class => "form-group ml-1"}
-  %label Bound:
-  %input{:class => "form-control"}

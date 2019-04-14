@@ -1,1 +1,16 @@
-lang: de
+plugin:
+  picotts:
+    lang: de
+    options:
+      - lang: de 
+        desc: German
+      - lang: gb 
+        desc: British English 
+      - lang: us
+        desc: US English
+      - lang: es 
+        desc: Spain
+      - lang: fr
+        desc: France
+      - lang: it
+        desc: Italian 

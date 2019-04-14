@@ -1,6 +1,10 @@
 %h2 Google TextToSpeech Settings:
 %div{:class => "form-group ml-1"}
   %label Language:
-  %input{:name => "lang", :class => "form-control", 
-  :value => yml.googletts['lang']}
+  %select{:name => "lang", :class => "form-control"}
+    - yml.gtts["options"].each do |opt|
+      - if yml.gtts["lang"] == opt["lang"]
+        %option{:value => opt["lang"], :selected => "selected"} #{opt["desc"]}
+      - else 
+        %option{:value => opt["lang"]} #{opt["desc"]}
 

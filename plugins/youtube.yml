@@ -1,14 +1,13 @@
 ---
-
 plugin:
   youtube:
     folder:
       download: downloadedfromyt/
       temp: youtubeplugin/
-    stream:
+    stream: ''
     youtube_dl:
       path: "/home/botmaster/src/youtube-dl"
       options: ''
       prefixes: ''
-      maxresults: 200
+      maxresults: '198'
     to_mp3: true

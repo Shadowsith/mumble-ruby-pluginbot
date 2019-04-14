@@ -1,4 +1,5 @@
 require 'yaml'
+require 'digest'
 
 class YmlTemplate 
   private
@@ -13,15 +14,33 @@ class YmlTemplate
   @@soundcloud_config = @path + "/../../plugins/soundcloud.yml"
   @@googletts_config = @path + "/../../plugins/googletts.yml"
   @@picotts__config = @path + "/../../plugins/picotts.yml"
+  @@login_config = @path + "/../login.yml"
+  @@instance_config = @path + "/../../../*_conf.yml"
 
   public
   attr_reader :mpd, :yt, :yt_dl, :sc, :bc, :mc, :ep
-  attr_reader :googletts, :picotts
-  attr_writer :yt_dl
+  attr_reader :gtts, :ptts, :idl, :bots, :sel_bot
+  attr_writer :yt_dl, :sel_bot
 
   def initialize
-    puts 'hi'
-    #load yaml
+    loadYaml()
+
+    #for simpler using it in haml
+    @mpd = @mpd_file['plugin']['mpd']
+    @yt = @youtube['plugin']['youtube']
+    @sc = @soundcloud['plugin']['soundcloud']
+    @bc = @bandcamp['plugin']['bandcamp']
+    @mc = @mixcloud['plugin']['mixcloud'] 
+    @ep = @ektoplazm['plugin']['ektoplazm']
+    @idl = @idle['plugin']['idle']
+    @ptts = @picotts['plugin']['picotts']
+    @gtts = @googletts['plugin']['googletts']
+    @yt_dl = nil # is set on get
+
+    getInstances()
+  end
+
+  def loadYaml()
     @mpd_file = YAML.load_file(@@mpd_config)
     @youtube = YAML.load_file(@@youtube_config)
     @idle = YAML.load_file(@@idle_config)
@@ -31,15 +50,26 @@ class YmlTemplate
     @soundcloud = YAML.load_file(@@soundcloud_config)
     @googletts = YAML.load_file(@@googletts_config)
     @picotts = YAML.load_file(@@picotts__config)
+  end
 
-    #for simpler using it in haml
-    @mpd = @mpd_file['plugin']['mpd']
-    @yt = @youtube['plugin']['youtube']
-    @sc = @soundcloud['plugin']['soundcloud']
-    @bc = @bandcamp['plugin']['bandcamp']
-    @mc = @mixcloud['plugin']['mixcloud'] 
-    @ep = @ektoplazm['plugin']['ektoplazm']
-    @yt_dl = nil # is set on get
+  def getInstances
+    @path = File.dirname(File.expand_path(__FILE__))
+    @bots_path = `ls #{@@instance_config}`.split(' ')
+    @bots = [] 
+    @bots_path.each {|p| @bots.push(YAML.load_file(p))}
+    @sel_bot = @bots[0]
+  end
+
+  def login(usr, pwd) 
+    pwd = Digest::SHA512.hexdigest pwd
+    @login = YAML.load_file(@@login_config)
+
+    for obj in @login['login']
+      if(obj['usr'] == usr && obj['pwd'] == pwd) 
+        return true
+      end
+    end
+    return false
   end
 
   def writeYtDl(params) 
@@ -129,12 +159,18 @@ class YmlTemplate
   end
 
   def saveGoogleTTS(post)
-    @googletts['lang'] = post['lang']
+    @googletts['plugin']['googletts']['lang'] = post['lang']
     File.open(@@googletts_config, 'w') {|f| f.write @googletts.to_yaml} 
   end
 
   def savePicoTTS(post)
-    @picotts['lang'] = post['lang']
+    @picotts['plugin']['picotts']['lang'] = post['lang']
     File.open(@@picotts_config, 'w') {|f| f.write @picotts.to_yaml} 
+  end
+
+  def saveIdle(post)
+    @idle['maxidletime'] = post['maxidletime']
+    @idle['idleaction'] = post['idleaction']
+    File.open(@@idle_config, 'w') {|f| f.write @idle.to_yaml}
   end
 end

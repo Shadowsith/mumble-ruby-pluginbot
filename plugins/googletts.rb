@@ -71,13 +71,13 @@ class GoogleTTS < Plugin
 
   def getLang
     data = YAML::load(File.open(CONFIG))
-    return data["lang"]
+    return data["plugin"]["googletts"]["lang"]
   end
 
   # TODO add checker for all valid google languages
   def setLang(lang)
     data = YAML::load(File.open(CONFIG))
-    data["lang"] = lang
+    data["plugin"]["googletts"]["lang"] = lang
     File.open(CONFIG, "w+") {
       |f|
       f.write(data.to_yaml)

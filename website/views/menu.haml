@@ -1,27 +1,38 @@
 %header
-  %nav{:class => "navbar navbar-expand navbar-dark bg-danger"}
+
+  %nav.navbar.navbar-expand-lg.navbar-dark.bg-danger
     %a{:class => "navbar-brand", :href => "#"}
       %img{:src => html.brand, :width => "30", :height => "30"}
-    %a{:class => "navbar-brand", :href => "#"} Pluginbot
-    %div{:class => "collapse navbar-collapse"}
-      %ul{:class => "navbar-nav mr-auto"}
-        %li{:class => "nav-item dropdown"}
-          %a{:class => "nav-link dropdown-toggle", :href => "#", :id => "mdrop",
+    %a.navbar-brand{:href => "#"} Pluginbot
+    %button.navbar-toggler{"data-target" => "#menu", "data-toggle" => "collapse", :type => "button"}
+      %span.navbar-toggler-icon
+    %div#menu.collapse.navbar-collapse
+      %ul.navbar-nav.mr-auto
+        %li.nav-item.dropdown
+          %a#mdrop.nav-link.dropdown-toggle{:href => "#",
             :"data-toggle" => "dropdown", :"aria-haspopup" => "true", 
             :"aria-expanded" => "false"} Settings
-          %div{:class => "dropdown-menu", :"aria-labelledby" => "mdrop"}
-            %a{:class => "dropdown-item", :href => "/index"} Global
-            %a{:class => "dropdown-item", :href => "/mpd"} MPD
-            %a{:class => "dropdown-item", :href => "/youtube"} Youtube
-            %a{:class => "dropdown-item", :href => "/bandcamp"} Bandcamp
-            %a{:class => "dropdown-item", :href => "/mixcloud"} Mixcloud
-            %a{:class => "dropdown-item", :href => "/ektoplazm"} Ektoplazm
-            %a{:class => "dropdown-item", :href => "/soundcloud"} SoundCloud
-            %a{:class => "dropdown-item", :href => "/googletts"} GoogleTTS
-            %a{:class => "dropdown-item", :href => "/picotts"} PicoTTS
-            %a{:class => "dropdown-item", :href => "/idle"} Idle
-        %li{:class => "nav-item"}
-          %a{:class => "nav-link", :href => "#"} Help
-      %ul{:class => "navbar-nav ml-auto"}
-        %li{:class => "nav-item"}
-          %a{:class => "nav-link", :href => "/logout"} Logout
+          %div.dropdown-menu{:"aria-labelledby" => "mdrop"}
+            %a.dropdown-item{:href => "/index"} Global
+            %a.dropdown-item{:href => "/mpd"} MPD
+            %a.dropdown-item{:href => "/youtube"} Youtube
+            %a.dropdown-item{:href => "/bandcamp"} Bandcamp
+            %a.dropdown-item{:href => "/mixcloud"} Mixcloud
+            %a.dropdown-item{:href => "/ektoplazm"} Ektoplazm
+            %a.dropdown-item{:href => "/soundcloud"} SoundCloud
+            %a.dropdown-item{:href => "/googletts"} GoogleTTS
+            %a.dropdown-item{:href => "/picotts"} PicoTTS
+            %a.dropdown-item{:href => "/idle"} Idle
+        %li.nav-item.dropdown
+          %a#botInstances.nav-link.dropdown-toggle{:href => "#",
+            :"data-toggle" => "dropdown", :"aria-haspopup" => "true", 
+            :"aria-expanded" => "false"} Bots
+          %div.dropdown-menu{:"aria-labelledby" => "botInstances"}
+            - yml.bots.each do |b|
+              %a.dropdown-item{:href => "/#{b['mumble']['name']}"} 
+                #{b['mumble']['name']}
+        %li.nav-item
+          %a.nav-link{:href => "#"} Help
+      %ul.navbar-nav.ml-auto
+        %li.nav-item
+          %a.nav-link{:href => "/logout"} Logout

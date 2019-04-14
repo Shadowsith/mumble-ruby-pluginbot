@@ -1,6 +1,4 @@
 ---
-
-
 plugin:
   soundcloud:
     folder:
@@ -10,4 +8,4 @@ plugin:
       path: "/home/botmaster/src/youtube-dl"
       options: ''
       prefixes: ''
-    to_mp3: false
+    to_mp3: true
