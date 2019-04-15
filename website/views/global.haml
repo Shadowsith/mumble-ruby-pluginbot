@@ -1,79 +1,133 @@
 %h2 #{yml.sel_bot['mumble']['name']} Settings
 %div.form-group.ml-1
   %label Debug:
-  %select.form-control
+  %select.form-control{:name => "debug"}
+    - if yml.sel_bot["debug"] == true 
+      %option{:value => "true", :selected => "selected"} true
+      %option{:value => "false"} false
+    - else
+      %option{:value => "true"} true
+      %option{:value => "false", :selected => "selected"} false
 %div.form-group.ml-1
   %label Language:
-  %input.form-control
+  %input.form-control{:name => "lang", :value => yml.sel_bot['language']}
 %h4 Main
 %div.form-group.ml-1
   %label Logfile:
-  %input.form-control
+  %input.form-control{:name => "logfile", 
+    :value => yml.sel_bot['main']['logfile']}
 %div.form-group.ml-1
   %label Ducking:
-  %select.form-control
+  %select.form-control{:name => "ducking"}
+    - if yml.sel_bot["main"]["ducking"] == true 
+      %option{:value => "true", :selected => "selected"} true
+      %option{:value => "false"} false
+    - else
+      %option{:value => "true"} true
+      %option{:value => "false", :selected => "selected"} false
 %div.form-group.ml-1
   %label Automute if alone:
   %select.form-control
+    - if yml.sel_bot["main"]["automute_if_alone"] == true 
+      %option{:value => "true", :selected => "selected"} true
+      %option{:value => "false"} false
+    - else
+      %option{:value => "true"} true
+      %option{:value => "false", :selected => "selected"} false
 %div.form-group.ml-1
   %label Stop on unregistered:
   %select.form-control
+    - if yml.sel_bot["main"]["stop_on_unregistered"] == true 
+      %option{:value => "true", :selected => "selected"} true
+      %option{:value => "false"} false
+    - else
+      %option{:value => "true"} true
+      %option{:value => "false", :selected => "selected"} false
 %div.form-group.ml-1
   %label Whitelist enabled:
   %select.form-control
+    - if yml.sel_bot["main"]["whitelist_enabled"] == true 
+      %option{:value => "true", :selected => "selected"} true
+      %option{:value => "false"} false
+    - else
+      %option{:value => "true"} true
+      %option{:value => "false", :selected => "selected"} false
 %div.form-group.ml-1
   %label File info:
-  %input.form-control
+  %input.form-control{:name => "fifo",
+    :value => yml.sel_bot["main"]["fifo"]}
 
 %h4 Control
 %div.form-group.ml-1
   %label Command sign:
-  %input.form-control
+  %input.form-control{:name => "string", 
+    :value => yml.sel_bot["main"]["control"]["string"]}
 %div.form-group.ml-1
   %label Private only:
   %select.form-control
+    - if yml.sel_bot["main"]["control"]["message"]["private_only"] == true
+      %option{:value => "true", :selected => "selected"} true
+      %option{:value => "false"} false
+    - else
+      %option{:value => "true"} true
+      %option{:value => "false", :selected => "selected"} false
 %div.form-group.ml-1
   %label Registered only:
   %select.form-control
+    - if yml.sel_bot["main"]["control"]["message"]["registred_only"] == true
+      %option{:value => "true", :selected => "selected"} true
+      %option{:value => "false"} false
+    - else
+      %option{:value => "true"} true
+      %option{:value => "false", :selected => "selected"} false
 %div.form-group.ml-1
   %label Historysize:
-  %select.form-control
+  %input.form-control{:name => "historysize",
+    :value => yml.sel_bot["main"]["control"]["historysize"]}
 
 %h4 User Config
 %div.form-group.ml-1
   %label Whitelisted:
-  %input.form-control
+  %input.form-control{:name => "whitelisted",
+    :value => yml.sel_bot["main"]["user"]["whitelisted"]}
 %div.form-group.ml-1
   %label Superuser:
-  %input.form-control
+  %input.form-control{:name => "superuser",
+    :value => yml.sel_bot["main"]["user"]["superuser"]}
 %div.form-group.ml-1
   %label Banned:
-  %input.form-control
+  %input.form-control{:name => "banned",
+    :value => yml.sel_bot["main"]["user"]["banned"]}
 %div.form-group.ml-1
   %label Bound:
-  %input.form-control
+  %input.form-control{:name => "bound",
+    :value => yml.sel_bot["main"]["user"]["bound"]}
 
 %h4 Mumble
 %div.form-group.ml-1
   %label Botname:
-  %input.form-control{:value => yml.sel_bot['mumble']['name']}
+  %input.form-control{:name => "name",
+    :value => yml.sel_bot['mumble']['name']}
 %div.form-group.ml-1
   %label Murmur Server:
-  %input.form-control
+  %input.form-control{:name => "host",
+    :value => yml.sel_bot['mumble']['host']}
 %div.form-group.ml-1
   %label Port:
-  %input.form-control
+  %input.form-control{:name => "port",
+    :value => yml.sel_bot['mumble']['port']}
 %div.form-group.ml-1
   %label Server password:
-  %input.form-control
+  %input.form-control{:name => "password",
+    :value => yml.sel_bot['mumble']['password']}
 %div.form-group.ml-1
   %label Default Channel:
-  %input.form-control
+  %input.form-control{:name => "channel",
+    :value => yml.sel_bot['mumble']['channel']}
 %div.form-group.ml-1
   %label Use VBR:
-  %input.form-control
+  %input.form-control{:name => "use_vbr",
+    :value => yml.sel_bot['mumble']['use_vbr']}
 %div.form-group.ml-1
   %label Bitrate:
   %input{:class => "form-control", :type => "number"}
-
-
