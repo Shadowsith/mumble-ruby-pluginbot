@@ -27,7 +27,7 @@
       %option{:value => "false", :selected => "selected"} false
 %div.form-group.ml-1
   %label Automute if alone:
-  %select.form-control
+  %select.form-control{:name => "automute_if_alone"}
     - if yml.sel_bot["main"]["automute_if_alone"] == true 
       %option{:value => "true", :selected => "selected"} true
       %option{:value => "false"} false

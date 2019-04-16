@@ -1,8 +1,9 @@
-require 'yaml'
-require 'digest'
+require "yaml"
+require "digest"
 
-class YmlTemplate 
+class YmlTemplate
   private
+
   @path = File.dirname(File.expand_path(__FILE__))
   @@bot_config = "/home/botmaster/src/bot%d_conf.yml"
   @@mpd_config = @path + "/../../plugins/mpd.yml"
@@ -17,7 +18,16 @@ class YmlTemplate
   @@login_config = @path + "/../login.yml"
   @@instance_config = @path + "/../../../*_conf.yml"
 
+  def s_true?(str)
+    if str == 'true' then true else false end
+  end
+
+  def s_empty?(str)
+    if str == '' then nil else str end
+  end
+
   public
+
   attr_reader :mpd, :yt, :yt_dl, :sc, :bc, :mc, :ep
   attr_reader :gtts, :ptts, :idl, :bots, :sel_bot
   attr_writer :yt_dl, :sel_bot
@@ -26,15 +36,15 @@ class YmlTemplate
     loadYaml()
 
     #for simpler using it in haml
-    @mpd = @mpd_file['plugin']['mpd']
-    @yt = @youtube['plugin']['youtube']
-    @sc = @soundcloud['plugin']['soundcloud']
-    @bc = @bandcamp['plugin']['bandcamp']
-    @mc = @mixcloud['plugin']['mixcloud'] 
-    @ep = @ektoplazm['plugin']['ektoplazm']
-    @idl = @idle['plugin']['idle']
-    @ptts = @picotts['plugin']['picotts']
-    @gtts = @googletts['plugin']['googletts']
+    @mpd = @mpd_file["plugin"]["mpd"]
+    @yt = @youtube["plugin"]["youtube"]
+    @sc = @soundcloud["plugin"]["soundcloud"]
+    @bc = @bandcamp["plugin"]["bandcamp"]
+    @mc = @mixcloud["plugin"]["mixcloud"]
+    @ep = @ektoplazm["plugin"]["ektoplazm"]
+    @idl = @idle["plugin"]["idle"]
+    @ptts = @picotts["plugin"]["picotts"]
+    @gtts = @googletts["plugin"]["googletts"]
     @yt_dl = nil # is set on get
 
     getInstances()
@@ -54,123 +64,157 @@ class YmlTemplate
 
   def getInstances
     @path = File.dirname(File.expand_path(__FILE__))
-    @bots_path = `ls #{@@instance_config}`.split(' ')
-    @bots = [] 
-    @bots_path.each {|p| @bots.push(YAML.load_file(p))}
+    @bots_path = `ls #{@@instance_config}`.split(" ")
+    @bots = []
+    @bots_path.each { |p| @bots.push(YAML.load_file(p)) }
     @sel_bot = @bots[0]
   end
 
-  def login(usr, pwd) 
+  def login(usr, pwd)
     pwd = Digest::SHA512.hexdigest pwd
     @login = YAML.load_file(@@login_config)
 
-    for obj in @login['login']
-      if(obj['usr'] == usr && obj['pwd'] == pwd) 
+    for obj in @login["login"]
+      if (obj["usr"] == usr && obj["pwd"] == pwd)
         return true
       end
     end
     return false
   end
 
-  def writeYtDl(params) 
-    @yt_dl['path'] = params['ytdl_path']
-    @yt_dl['options'] = params['ytdl_options']
-    @yt_dl['prefixes'] = params['ytdl_prefixes']
+  def writeYtDl(params)
+    @yt_dl["path"] = params["ytdl_path"]
+    @yt_dl["options"] = params["ytdl_options"]
+    @yt_dl["prefixes"] = params["ytdl_prefixes"]
   end
 
   def writeBack(yml, params)
-    yml['youtube_dl'] = @yt_dl
+    yml["youtube_dl"] = @yt_dl
 
-    yml['folder']['download'] = params['folder_download']
-    yml['folder']['temp'] = params['folder_temp']
-    if params['to_mp3'] == '1'
-      yml['to_mp3'] = true
+    yml["folder"]["download"] = params["folder_download"]
+    yml["folder"]["temp"] = params["folder_temp"]
+    if params["to_mp3"] == "1"
+      yml["to_mp3"] = true
     else
-      yml['to_mp3'] = false
+      yml["to_mp3"] = false
     end
   end
 
   def saveYoutube(params)
     writeYtDl(params)
-    @yt_dl['maxresults'] = params['ytdl_maxresults']
-    @yt['youtube_dl'] = @yt_dl
+    @yt_dl["maxresults"] = params["ytdl_maxresults"]
+    @yt["youtube_dl"] = @yt_dl
 
-    @yt['folder']['download'] = params['folder_download']
-    @yt['folder']['temp'] = params['folder_temp']
-    @yt['stream'] = params['stream']
-    if params['to_mp3'] == 1
-      @yt['to_mp3'] == true
+    @yt["folder"]["download"] = params["folder_download"]
+    @yt["folder"]["temp"] = params["folder_temp"]
+    @yt["stream"] = params["stream"]
+    if params["to_mp3"] == 1
+      @yt["to_mp3"] == true
     else
-      @yt['to_mp3'] == false
+      @yt["to_mp3"] == false
     end
 
-    @youtube['plugin']['youtube'] = @yt
-    File.open(@@youtube_config, 'w') {|f| f.write @youtube.to_yaml}
+    @youtube["plugin"]["youtube"] = @yt
+    File.open(@@youtube_config, "w") { |f| f.write @youtube.to_yaml }
   end
 
   def saveMpd(post)
-    @mpd['testpipe'] = post['testpipe']
-    @mpd['volume'] = post['volume']
-    @mpd['host'] = post['host']
-    @mpd['port'] = post['port']
-    @mpd['musicfolder'] = post['musicfolder']
-    @mpd['template']['comment']['enabled'] = post['enabled']
-    @mpd['template']['comment']['disabled'] = post['disabled']
-    
-    @mpd_file['plugin']['mpd'] = @mpd
-    File.open(@@mpd_config, 'w') {|f| f.write @mpd_file.to_yaml} 
+    @mpd["testpipe"] = post["testpipe"]
+    @mpd["volume"] = post["volume"]
+    @mpd["host"] = post["host"]
+    @mpd["port"] = post["port"]
+    @mpd["musicfolder"] = post["musicfolder"]
+    @mpd["template"]["comment"]["enabled"] = post["enabled"]
+    @mpd["template"]["comment"]["disabled"] = post["disabled"]
+
+    @mpd_file["plugin"]["mpd"] = @mpd
+    File.open(@@mpd_config, "w") { |f| f.write @mpd_file.to_yaml }
   end
 
   def saveSoundCloud(post)
     writeYtDl(post)
     writeBack(@sc, post)
-    @soundcloud['plugin']['soundcloud'] = @sc
-    File.open(@@soundcloud_config, 'w') {|f| f.write @soundcloud.to_yaml} 
+    @soundcloud["plugin"]["soundcloud"] = @sc
+    File.open(@@soundcloud_config, "w") { |f| f.write @soundcloud.to_yaml }
   end
 
   def saveMixCloud(post)
     writeYtDl(post)
     writeBack(@mc, post)
-    @mixcloud['plugin']['mixcloud'] = @mc
-    File.open(@@mixcloud_config, 'w') {|f| f.write @mixcloud.to_yaml} 
+    @mixcloud["plugin"]["mixcloud"] = @mc
+    File.open(@@mixcloud_config, "w") { |f| f.write @mixcloud.to_yaml }
   end
 
   def saveMixCloud(post)
     writeYtDl(post)
     writeBack(@mc, post)
-    @mixcloud['plugin']['mixcloud'] = @mc
-    File.open(@@mixcloud_config, 'w') {|f| f.write @mixcloud.to_yaml} 
+    @mixcloud["plugin"]["mixcloud"] = @mc
+    File.open(@@mixcloud_config, "w") { |f| f.write @mixcloud.to_yaml }
   end
 
   def saveBandCamp(post)
     writeYtDl(post)
     writeBack(@bc, post)
-    @bandcamp['plugin']['bandcamp'] = @bc
-    File.open(@@bandcamp_config, 'w') {|f| f.write @bandcamp.to_yaml} 
+    @bandcamp["plugin"]["bandcamp"] = @bc
+    File.open(@@bandcamp_config, "w") { |f| f.write @bandcamp.to_yaml }
   end
 
   def saveEktoplazm(post)
-    @ep['folder']['download'] = params['folder_download']
-    @ep['folder']['temp'] = params['folder_temp']
-    @ep['prefixes'] = params['prefixes']
+    @ep["folder"]["download"] = params["folder_download"]
+    @ep["folder"]["temp"] = params["folder_temp"]
+    @ep["prefixes"] = params["prefixes"]
 
-    @ektoplazm['plugin']['ektoplazm'] = @ep
-    File.open(@@ektoplazm_config, 'w') {|f| f.write @ektoplazm.to_yaml} 
+    @ektoplazm["plugin"]["ektoplazm"] = @ep
+    File.open(@@ektoplazm_config, "w") { |f| f.write @ektoplazm.to_yaml }
   end
 
   def saveGoogleTTS(post)
-    @googletts['plugin']['googletts']['lang'] = post['lang']
-    File.open(@@googletts_config, 'w') {|f| f.write @googletts.to_yaml} 
+    @googletts["plugin"]["googletts"]["lang"] = post["lang"]
+    File.open(@@googletts_config, "w") { |f| f.write @googletts.to_yaml }
   end
 
   def savePicoTTS(post)
-    @picotts['plugin']['picotts']['lang'] = post['lang']
-    File.open(@@picotts_config, 'w') {|f| f.write @picotts.to_yaml} 
+    @picotts["plugin"]["picotts"]["lang"] = post["lang"]
+    File.open(@@picotts_config, "w") { |f| f.write @picotts.to_yaml }
   end
 
   def saveIdle(post)
-    @idle['maxidletime'] = post['maxidletime']
-    @idle['idleaction'] = post['idleaction']
-    File.open(@@idle_config, 'w') {|f| f.write @idle.to_yaml}
+    @idle["maxidletime"] = post["maxidletime"]
+    @idle["idleaction"] = post["idleaction"]
+    File.open(@@idle_config, "w") { |f| f.write @idle.to_yaml }
+  end
+
+  def saveBot(post)
+    pos = 0 
+    for b in @bots 
+      break if b == @sel_bot
+      pos += 1
+    end
+
+    @sel_bot["debug"] = s_true?(post["debug"])
+    @sel_bot["language"] = post["lang"]
+    @sel_bot["main"]["logfile"] = post["logfile"]
+    @sel_bot["main"]["ducking"] = s_true?(post["ducking"])
+    @sel_bot["main"]["automute_if_alone"] = s_true?(post["automute_if_alone"])
+    @sel_bot["main"]["stop_on_unregistered"] = s_true?(post["stop_on_unregistered"])
+    @sel_bot["main"]["whitelist_enabled"] = s_true?(post["whitelist_enabled"])
+    @sel_bot["main"]["fifo"] = post["fifo"]
+    @sel_bot["main"]["control"]["string"] = post["string"]
+    @sel_bot["main"]["control"]["message"]["private_only"] = post["private_only"]
+    @sel_bot["main"]["control"]["message"]["registred_only"] =
+      s_true?(post["registered_only"])
+    @sel_bot["main"]["control"]["historysize"] = post["historysize"].to_s
+    @sel_bot["main"]["user"]["whitelisted"] = post["whitelisted"]
+    @sel_bot["main"]["user"]["superuser"] = post["superuser"]
+    @sel_bot["main"]["user"]["banned"] = post["banned"]
+    @sel_bot["main"]["user"]["bound"] = post["bound"]
+    @sel_bot['mumble']['name'] = post["name"]
+    @sel_bot["mumble"]["host"] = post["host"]
+    @sel_bot["mumble"]["port"] = post["port"].to_i
+    @sel_bot["mumble"]["password"] = post["password"]
+    @sel_bot["mumble"]["use_vbr"] = post["use_vbr"].to_i
+
+    File.open(@bots_path[pos], "w") { |f| f.write @sel_bot.to_yaml }
+    @bots[pos] = @sel_bot
   end
 end

@@ -1,31 +1,34 @@
-#!/usr/bin/ruby 
-require 'sinatra/base'
-require 'haml'
-require_relative './rb/HtmlTemplate.rb'
-require_relative './rb/YmlTemplate.rb'
+#!/usr/bin/ruby
+require "sinatra/base"
+require "haml"
+require_relative "./rb/HtmlTemplate.rb"
+require_relative "./rb/YmlTemplate.rb"
 
 class Pluginbot < Sinatra::Base
   private
+
   @@html = HtmlTemplate.new
   @@yml = YmlTemplate.new
 
   public
-  set :public_folder, File.dirname(File.expand_path(__FILE__)) + '/'
+
+  set :public_folder, File.dirname(File.expand_path(__FILE__)) + "/"
   enable :sessions
+
   def login(params)
-    usr = params['username']
-    pwd = params['password']
+    usr = params["username"]
+    pwd = params["password"]
     # dummy test 'login'
     if (@@yml.login(usr, pwd))
-      session['login'] = true
-      session['usr'] = usr
-      redirect '/index'
-    else 
+      session["login"] = true
+      session["usr"] = usr
+      redirect "/index"
+    else
       haml :login
-    end 
+    end
   end
 
-  def html 
+  def html
     return @@html
   end
 
@@ -33,113 +36,124 @@ class Pluginbot < Sinatra::Base
     return @@yml
   end
 
-  def setRoute(route) 
-    if(route != 'login') 
-      redirect '/login' if session['login'] != true
+  def setRoute(route)
+    if (route != "login")
+      redirect "/login" if session["login"] != true
       @index_content = route
     end
 
     isRouted = false
 
     # dynamic bot sessions
-    for b in yml.bots 
-      if route == b['mumble']['name']
+    for b in yml.bots
+      if route == b["mumble"]["name"]
         yml.sel_bot = b
         isRouted = true
-        @index_content = 'global'
-        redirect '/index'
+        @index_content = "global"
+        redirect "/index"
         break
       end
     end
 
     if (!isRouted)
-    case route
-      when 'login'
-        redirect '/index' if session['login'] == true
+      case route
+      when "login"
+        redirect "/index" if session["login"] == true
         haml :login
-      when 'index'
-        @index_content = 'global'
+      when "index"
+        @index_content = "global"
         haml :index
-      when 'youtube'
-        @@yml.yt_dl = @@yml.yt['youtube_dl']
+      when "youtube"
+        @@yml.yt_dl = @@yml.yt["youtube_dl"]
         haml :index
-      when 'mpd'
+      when "mpd"
         haml :index
-      when 'ektoplazm' 
+      when "ektoplazm"
         haml :index
-      when 'bandcamp'
-        @@yml.yt_dl = @@yml.bc['youtube_dl']
-        haml :index 
-      when 'mixcloud'
-        @@yml.yt_dl = @@yml.mc['youtube_dl']
+      when "bandcamp"
+        @@yml.yt_dl = @@yml.bc["youtube_dl"]
         haml :index
-      when 'soundcloud'
-        @@yml.yt_dl = @@yml.sc['youtube_dl']
-        haml :index 
-      when 'idle'
+      when "mixcloud"
+        @@yml.yt_dl = @@yml.mc["youtube_dl"]
         haml :index
-      when 'googletts'
+      when "soundcloud"
+        @@yml.yt_dl = @@yml.sc["youtube_dl"]
         haml :index
-      when 'picotts'
+      when "idle"
         haml :index
-      when 'logout'
-        session['login'] = false
-        session['usr'] = nil
+      when "googletts"
+        haml :index
+      when "picotts"
+        haml :index
+      when "logout"
+        session["login"] = false
+        session["usr"] = nil
         puts session
-        redirect '/login'
-      else 
+        redirect "/login"
+      else
         haml :login
-    end
+      end
     end
   end
-  
+
   # Endpoints
-  
-  get '/*' do
+
+  get "/*" do
     route = params[:splat].first
     setRoute(route)
   end
 
-  post '/login' do
+  post "/login" do
     login(params)
   end
 
-  post '/youtube' do 
+  post "/youtube" do
     @@yml.saveYoutube(params)
-    redirect '/youtube'
+    redirect "/youtube"
   end
 
-  post '/mpd' do 
+  post "/mpd" do
     @@yml.saveMpd(params)
-    redirect '/mpd'
+    redirect "/mpd"
   end
 
-  post '/soundcloud' do 
+  post "/soundcloud" do
     @@yml.saveSoundCloud(params)
-    redirect '/soundcloud'
+    redirect "/soundcloud"
   end
 
-  post '/mixcloud' do 
+  post "/mixcloud" do
     @@yml.saveMixCloud(params)
-    redirect '/mixcloud'
+    redirect "/mixcloud"
   end
 
-  post '/bandcamp' do 
+  post "/bandcamp" do
     @@yml.saveBandCamp(params)
-    redirect '/bandcamp'
+    redirect "/bandcamp"
   end
 
-  post '/ektoplazm' do 
+  post "/ektoplazm" do
     @@yml.saveEktoplazm(params)
-    redirect '/ektoplazm'
+    redirect "/ektoplazm"
   end
 
-  post '/googletts' do 
-    redirect '/googletts'
-  end 
+  post "/googletts" do
+    @@yml.saveGoogleTTS(params)
+    redirect "/googletts"
+  end
 
-  post '/picotts' do
-    redirect '/picotts'
+  post "/picotts" do
+    @@yml.savePicoTTS(params)
+    redirect "/picotts"
+  end
+
+  post "/idle" do 
+    @@yml.saveIdle(params)
+  end
+
+  post "/index" do
+      @@yml.saveBot(params)
+      redirect "/index"
   end
 
   run!
