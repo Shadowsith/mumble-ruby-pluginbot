@@ -4,15 +4,15 @@
     = haml :head
 
   %body
-    %div{:class => "container mt-5"}
+    %div.container.mt-5
       %h3 Pluginbot Webinterface
-      %div{:class => "border pl-4 pr-4"}
-        %h3{:class => "mb-3"} Sign in
-        %form{:class => "form-signin", :method => "POST"}
-          %div{:class => "form-group"}
-            %label{:id => "usr"} Username:
-            %input{:name => "username", :class => "form-control"}
-          %div{:id => "pwd", :class => "form-group"}
+      %div.bordr.pl-4.pr-4
+        %h3.mb-3 Sign in
+        %form.form-signin{:method => "POST"}
+          %div.form-group
+            %label Username:
+            %input.form-control{:name => "username"}
+          %div.form-group
             %label Password:
-            %input{:name => "password", :class => "form-control"}
-          %button{:class => "btn btn-lg btn-danger btn-block mb-3", :id => "submit"} Login
+            %input.form-control{:type => "password", :name => "password"}
+          %button.btn.btn-lg.btn-danger.btn-block.mb-3{:class => "btn btn-lg btn-danger btn-block mb-3", :id => "submit"} Login

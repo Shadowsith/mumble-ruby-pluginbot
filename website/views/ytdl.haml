@@ -1,0 +1,9 @@
+%div.form-group.ml-1
+  %label Path to youtube-dl executable:
+  %input.form-control{:name => "ytdl_path", :value => yml.yt_dl['path']}
+%div.form-group-ml-1
+  %label Options:
+  %input.form-control{:name => "ytdl_options", :value => yml.yt_dl['options']}
+%div.form-group.ml-1
+  %label Prefixes:
+  %input.form-control{:name => "ytdl_prefixes", :value => yml.yt_dl['prefixes']}

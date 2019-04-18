@@ -1,10 +1,11 @@
-%h2 Google TextToSpeech Settings:
-%div{:class => "form-group ml-1"}
-  %label Language:
-  %select{:name => "lang", :class => "form-control"}
-    - yml.gtts["options"].each do |opt|
-      - if yml.gtts["lang"] == opt["lang"]
-        %option{:value => opt["lang"], :selected => "selected"} #{opt["desc"]}
-      - else 
-        %option{:value => opt["lang"]} #{opt["desc"]}
-
+%form.form-signin{:method => "POST"}
+  %h2 Google TextToSpeech Settings:
+  %div.form-group.ml-1
+    %label Language:
+    %select.form-control{:name => "lang"}
+      - yml.gtts["options"].each do |opt|
+        - if yml.gtts["lang"] == opt["lang"]
+          %option{:value => opt["lang"], :selected => "selected"} #{opt["desc"]}
+        - else 
+          %option{:value => opt["lang"]} #{opt["desc"]}
+  = haml :savebtn

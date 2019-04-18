@@ -16,13 +16,13 @@ class Pluginbot < Sinatra::Base
   enable :sessions
 
   def login(params)
-    usr = params["username"]
-    pwd = params["password"]
+    usr = params[:username]
+    pwd = params[:password]
     # dummy test 'login'
     if (@@yml.login(usr, pwd))
       session[:login] = true
       session[:usr] = usr
-      session[:bot] = yml.sel_bot
+      yml.setBot(session)
       redirect "/index"
     else
       haml :login
@@ -37,6 +37,11 @@ class Pluginbot < Sinatra::Base
     return @@yml
   end
 
+  def setContent(content)
+    session[:index_content] = content
+    session[:last_visit] = content
+  end
+
   def setRoute(route)
     if (route != "login")
       redirect "/login" if session[:login] != true
@@ -49,53 +54,98 @@ class Pluginbot < Sinatra::Base
     for b in yml.bots
       if route == b["mumble"]["name"]
         session[:bot] = b
-        yml.sel_bot = b
         isRouted = true
         session[:index_content] = "global"
         redirect "/index"
-        break
+        return
       end
     end
 
     if (!isRouted)
+      
+
       case route
       when "login"
         redirect "/index" if session["login"] == true
         haml :login
       when "index"
-        session['index_content'] = "global"
+        setContent("global")
         haml :index
       when "youtube"
+        setContent("youtube")
         @@yml.yt_dl = @@yml.yt["youtube_dl"]
         haml :index
       when "mpd"
+        setContent("mpd")
         haml :index
       when "ektoplazm"
+        setContent("ektoplazm")
         haml :index
       when "bandcamp"
+        setContent("bandcamp")
         @@yml.yt_dl = @@yml.bc["youtube_dl"]
         haml :index
       when "mixcloud"
+        setContent("mixcloud")
         @@yml.yt_dl = @@yml.mc["youtube_dl"]
         haml :index
       when "soundcloud"
+        setContent("soundcloud")
         @@yml.yt_dl = @@yml.sc["youtube_dl"]
         haml :index
       when "idle"
+        setContent("idle")
         haml :index
       when "googletts"
+        setContent("googletts")
         haml :index
       when "picotts"
+        setContent("picotts")
         haml :index
       when "log"
+        setContent("log")
         haml :index
       when "logout"
         session[:login] = false
         session[:usr] = nil
-        puts session
         redirect "/login"
       else
         haml :login
+      end
+    end
+  end
+
+  def handlePost(route, post)
+    if(session[:login])
+      case route 
+      when "youtube"
+        @@yml.saveYoutube(post)
+      when "mpd"
+        @@yml.saveMpd(post)
+      when "soundcloud"
+        @@yml.saveSoundCloud(post)
+      when "mixcloud"
+        @@yml.saveMixCloud(post)
+      when "bandcamp"
+        @@yml.saveBandCamp(post)
+      when "ektoplazm"
+        @@yml.saveEktoplazm(post)
+      when "googletts"
+        @@yml.saveGoogleTTS(post)
+      when "picotts"
+        @@yml.savePicoTTS(post)
+      when "idle"
+        @@yml.saveIdle(post)
+      when "index"
+        @@yml.saveBot(post, session)
+      else 
+        redirect "/index"
+        return
+      end
+      redirect "/#{route}"
+    else 
+      if(route == "login")
+        login(post)
       end
     end
   end
@@ -106,6 +156,11 @@ class Pluginbot < Sinatra::Base
     route = params[:splat].first
     setRoute(route)
   end
+
+  post "/*" do 
+    route = params[:splat].first
+    handlePost(route, params)
+  end 
 
   post "/login" do
     login(params)

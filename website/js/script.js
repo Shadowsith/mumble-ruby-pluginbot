@@ -1,8 +1,10 @@
 $(document).ready(function () {
-    let val = $("#to_mp3");
-    console.log(val);
-    // $('#to_mp3 option:contains(' + val + ')').prop({selected: true});
-    // $("#to_mp3").change(function()) {
-    // }
+    Pluginbot.autoHeight($('textarea')[0]);
 });
 
+class Pluginbot {
+    static autoHeight(elem) {
+        elem.style.height='auto';
+        elem.style.height=elem.scrollHeight+'px';
+    }
+}

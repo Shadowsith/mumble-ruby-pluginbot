@@ -1,9 +1,8 @@
 %header
-
   %nav.navbar.navbar-expand-lg.navbar-dark.bg-danger
     %a{:class => "navbar-brand", :href => "#"}
       %img{:src => html.brand, :width => "30", :height => "30"}
-    %a.navbar-brand{:href => "#"} #{yml.sel_bot['mumble']['name']}
+    %a.navbar-brand{:href => "#"} #{session[:bot]['mumble']['name']}
     %button.navbar-toggler{"data-target" => "#menu", 
       "data-toggle" => "collapse", :type => "button"}
       %span.navbar-toggler-icon
@@ -39,10 +38,10 @@
       %ul.navbar-nav.ml-auto
         %li.nav-item.pr-1
           %form{:action => "/bot_start", :method => "post"}
-            %button.btn.btn-success{:name => "bot", :value => "start"} Start
-        %li.nav-item
+            %button.btn.btn-outline-light{:name => "bot", :value => "start"} Start
+        %li.nav-item.pr-1
           %form{:action => "/bot_stop", :method => "post"}
-            %button.btn.btn-warning{:name => "bot", :value => "stop"} Stop
+            %button.btn.btn-outline-light{:name => "bot", :value => "stop"} Stop
         %li.nav-item
-          %a.nav-link{:href => "/logout"} Logout
+          %a.btn.btn-outline-light{:role => "button", :href => "/logout"} Logout
 

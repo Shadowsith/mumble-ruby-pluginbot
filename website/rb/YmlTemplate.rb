@@ -15,7 +15,7 @@ class YmlTemplate
   @@bandcamp_config = @path + "/../../plugins/bandcamp.yml"
   @@soundcloud_config = @path + "/../../plugins/soundcloud.yml"
   @@googletts_config = @path + "/../../plugins/googletts.yml"
-  @@picotts__config = @path + "/../../plugins/picotts.yml"
+  @@picotts_config = @path + "/../../plugins/picotts.yml"
   @@login_config = @path + "/../login.yml"
   @@instance_config = @path + "/../../../*_conf.yml"
 
@@ -29,9 +29,9 @@ class YmlTemplate
 
   public
 
-  attr_reader :mpd, :yt, :yt_dl, :sc, :bc, :mc, :ep
-  attr_reader :gtts, :ptts, :idl, :bots, :sel_bot
-  attr_writer :yt_dl, :sel_bot
+  attr_reader :mpd, :yt, :sc, :bc, :mc, :ep
+  attr_reader :gtts, :ptts, :idl, :bots
+  attr_accessor :yt_dl
 
   def initialize
     loadYaml()
@@ -60,7 +60,7 @@ class YmlTemplate
     @bandcamp = YAML.load_file(@@bandcamp_config)
     @soundcloud = YAML.load_file(@@soundcloud_config)
     @googletts = YAML.load_file(@@googletts_config)
-    @picotts = YAML.load_file(@@picotts__config)
+    @picotts = YAML.load_file(@@picotts_config)
   end
 
   def getInstances
@@ -68,7 +68,6 @@ class YmlTemplate
     @bots_path = `ls #{@@instance_config}`.split(" ")
     @bots = []
     @bots_path.each { |p| @bots.push(YAML.load_file(p)) }
-    @sel_bot = @bots[0]
   end
 
   def setBot(session)
@@ -103,49 +102,42 @@ class YmlTemplate
   end
 
   def writeYtDl(params)
-    @yt_dl["path"] = params["ytdl_path"]
-    @yt_dl["options"] = params["ytdl_options"]
-    @yt_dl["prefixes"] = params["ytdl_prefixes"]
+    @yt_dl["path"] = s_empty? params["ytdl_path"]
+    @yt_dl["options"] = s_empty? params["ytdl_options"]
+    @yt_dl["prefixes"] = s_empty? params["ytdl_prefixes"]
   end
 
   def writeBack(yml, params)
     yml["youtube_dl"] = @yt_dl
 
-    yml["folder"]["download"] = params["folder_download"]
-    yml["folder"]["temp"] = params["folder_temp"]
-    if params["to_mp3"] == "1"
-      yml["to_mp3"] = true
-    else
-      yml["to_mp3"] = false
-    end
+    yml["folder"]["download"] = s_empty? params["folder_download"]
+    yml["folder"]["temp"] = s_empty? params["folder_temp"]
+    yml["to_mp3"] = s_true?(params["to_mp3"])
   end
 
   def saveYoutube(params)
     writeYtDl(params)
-    @yt_dl["maxresults"] = params["ytdl_maxresults"]
+    @yt_dl["maxresults"] = params["ytdl_maxresults"].to_i
     @yt["youtube_dl"] = @yt_dl
 
-    @yt["folder"]["download"] = params["folder_download"]
-    @yt["folder"]["temp"] = params["folder_temp"]
-    @yt["stream"] = params["stream"]
-    if params["to_mp3"] == 1
-      @yt["to_mp3"] == true
-    else
-      @yt["to_mp3"] == false
-    end
+    @yt["folder"]["download"] = s_empty? params["folder_download"]
+    @yt["folder"]["temp"] = s_empty? params["folder_temp"]
+    @yt["stream"] = s_empty?(params["stream"])
+    puts params["to_mp3"]
+    @yt["to_mp3"] = s_true?(params["to_mp3"])
 
     @youtube["plugin"]["youtube"] = @yt
     File.open(@@youtube_config, "w") { |f| f.write @youtube.to_yaml }
   end
 
   def saveMpd(post)
-    @mpd["testpipe"] = post["testpipe"]
-    @mpd["volume"] = post["volume"]
-    @mpd["host"] = post["host"]
-    @mpd["port"] = post["port"]
-    @mpd["musicfolder"] = post["musicfolder"]
-    @mpd["template"]["comment"]["enabled"] = post["enabled"]
-    @mpd["template"]["comment"]["disabled"] = post["disabled"]
+    @mpd["testpipe"] = s_true?(post["testpipe"])
+    @mpd["volume"] = post["volume"].to_i
+    @mpd["host"] = s_empty? post["host"]
+    @mpd["port"] = post["port"].to_i
+    @mpd["musicfolder"] = s_empty? post["musicfolder"]
+    @mpd["template"]["comment"]["enabled"] = s_empty? post["enabled"]
+    @mpd["template"]["comment"]["disabled"] = s_empty? post["disabled"]
 
     @mpd_file["plugin"]["mpd"] = @mpd
     File.open(@@mpd_config, "w") { |f| f.write @mpd_file.to_yaml }
@@ -180,27 +172,28 @@ class YmlTemplate
   end
 
   def saveEktoplazm(post)
-    @ep["folder"]["download"] = params["folder_download"]
-    @ep["folder"]["temp"] = params["folder_temp"]
-    @ep["prefixes"] = params["prefixes"]
+    @ep["folder"]["download"] = s_empty? params["folder_download"]
+    @ep["folder"]["temp"] = s_empty? params["folder_temp"]
+    @ep["prefixes"] = s_empty? params["prefixes"]
 
     @ektoplazm["plugin"]["ektoplazm"] = @ep
     File.open(@@ektoplazm_config, "w") { |f| f.write @ektoplazm.to_yaml }
   end
 
   def saveGoogleTTS(post)
-    @googletts["plugin"]["googletts"]["lang"] = post["lang"]
+    @googletts["plugin"]["googletts"]["lang"] = s_empty? post["lang"]
     File.open(@@googletts_config, "w") { |f| f.write @googletts.to_yaml }
   end
 
   def savePicoTTS(post)
-    @picotts["plugin"]["picotts"]["lang"] = post["lang"]
+    @picotts["plugin"]["picotts"]["lang"] = s_empty? post["lang"]
     File.open(@@picotts_config, "w") { |f| f.write @picotts.to_yaml }
   end
 
   def saveIdle(post)
-    @idle["maxidletime"] = post["maxidletime"]
-    @idle["idleaction"] = post["idleaction"]
+    @idl["maxidletime"] = post["maxidletime"].to_i
+    @idl["idleaction"] = s_empty? post["idleaction"]
+    @idle['plugin']['idle'] = @idl
     File.open(@@idle_config, "w") { |f| f.write @idle.to_yaml }
   end
 
@@ -211,30 +204,35 @@ class YmlTemplate
       pos += 1
     end
 
-    @sel_bot["debug"] = s_true?(post["debug"])
-    @sel_bot["language"] = post["lang"]
-    @sel_bot["main"]["logfile"] = post["logfile"]
-    @sel_bot["main"]["ducking"] = s_true?(post["ducking"])
-    @sel_bot["main"]["automute_if_alone"] = s_true?(post["automute_if_alone"])
-    @sel_bot["main"]["stop_on_unregistered"] = s_true?(post["stop_on_unregistered"])
-    @sel_bot["main"]["whitelist_enabled"] = s_true?(post["whitelist_enabled"])
-    @sel_bot["main"]["fifo"] = post["fifo"]
-    @sel_bot["main"]["control"]["string"] = post["string"]
-    @sel_bot["main"]["control"]["message"]["private_only"] = post["private_only"]
-    @sel_bot["main"]["control"]["message"]["registred_only"] =
-      s_true?(post["registered_only"])
-    @sel_bot["main"]["control"]["historysize"] = post["historysize"].to_s
-    @sel_bot["main"]["user"]["whitelisted"] = post["whitelisted"]
-    @sel_bot["main"]["user"]["superuser"] = post["superuser"]
-    @sel_bot["main"]["user"]["banned"] = post["banned"]
-    @sel_bot["main"]["user"]["bound"] = post["bound"]
-    @sel_bot['mumble']['name'] = post["name"]
-    @sel_bot["mumble"]["host"] = post["host"]
-    @sel_bot["mumble"]["port"] = post["port"].to_i
-    @sel_bot["mumble"]["password"] = post["password"]
-    @sel_bot["mumble"]["use_vbr"] = post["use_vbr"].to_i
+    puts post
 
-    File.open(@bots_path[pos], "w") { |f| f.write @sel_bot.to_yaml }
-    @bots[pos] = @sel_bot
+    bot = @bots[pos]
+    bot['debug'] = s_true?(post['debug'])
+    bot['language'] = s_empty? post['lang']
+    bot['main']['logfile'] = post['logfile']
+    bot['main']['ducking'] = s_true?(post['ducking'])
+    bot['main']['automute_if_alone'] = s_true?(post['automute_if_alone'])
+    bot['main']['stop_on_unregistered'] = s_true?(post['stop_on_unregistered'])
+    bot['main']['whitelist_enabled'] = s_true?(post['whitelist_enabled'])
+    bot['main']['fifo'] = s_empty? post['fifo']
+    bot['main']['control']['string'] = s_empty? post['string']
+    bot['main']['control']['message']['private_only'] = s_empty? post['private_only']
+    bot['main']['control']['message']['registred_only'] =
+      s_true?(post['registered_only'])
+    bot['main']['control']['historysize'] = post['historysize'].to_i
+    bot['main']['user']['whitelisted'] = s_empty? post['whitelisted']
+    bot['main']['user']['superuser'] = s_empty? post['superuser']
+    bot['main']['user']['banned'] = s_empty? post['banned']
+    bot['main']['user']['bound'] = s_empty? post['bound']
+    bot['mumble']['name'] = s_empty? post['name']
+    bot['mumble']['host'] = s_empty? post['host']
+    bot['mumble']['port'] = post['port'].to_i
+    bot['mumble']['password'] = s_empty? post['password']
+    bot['mumble']['use_vbr'] = post['use_vbr'].to_i
+
+
+    File.open(@bots_path[pos], "w") { |f| f.write bot.to_yaml }
+    @bots[pos] = bot
+    session[:bot] = bot
   end
 end

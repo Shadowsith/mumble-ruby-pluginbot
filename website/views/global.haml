@@ -1,133 +1,135 @@
-%h3 #{session[:bot]['mumble']['name']} Settings
-%div.form-group.ml-1
-  %label Debug:
-  %select.form-control{:name => "debug"}
-    - if session[:bot]['debug'] == true 
-      %option{:value => "true", :selected => "selected"} true
-      %option{:value => "false"} false
-    - else
-      %option{:value => "true"} true
-      %option{:value => "false", :selected => "selected"} false
-%div.form-group.ml-1
-  %label Language:
-  %input.form-control{:name => "lang", :value => session[:bot]['language']}
-%h4 Main
-%div.form-group.ml-1
-  %label Logfile:
-  %input.form-control{:name => "logfile", 
-    :value => session[:bot]['main']['logfile']}
-%div.form-group.ml-1
-  %label Ducking:
-  %select.form-control{:name => "ducking"}
-    - if session[:bot]['main']['ducking'] == true 
-      %option{:value => "true", :selected => "selected"} true
-      %option{:value => "false"} false
-    - else
-      %option{:value => "true"} true
-      %option{:value => "false", :selected => "selected"} false
-%div.form-group.ml-1
-  %label Automute if alone:
-  %select.form-control{:name => "automute_if_alone"}
-    - if session[:bot]['main']['automute_if_alone'] == true 
-      %option{:value => "true", :selected => "selected"} true
-      %option{:value => "false"} false
-    - else
-      %option{:value => "true"} true
-      %option{:value => "false", :selected => "selected"} false
-%div.form-group.ml-1
-  %label Stop on unregistered:
-  %select.form-control
-    - if session[:bot]['main']['stop_on_unregistered'] == true 
-      %option{:value => "true", :selected => "selected"} true
-      %option{:value => "false"} false
-    - else
-      %option{:value => "true"} true
-      %option{:value => "false", :selected => "selected"} false
-%div.form-group.ml-1
-  %label Whitelist enabled:
-  %select.form-control
-    - if session[:bot]['main']['whitelist_enabled'] == true 
-      %option{:value => "true", :selected => "selected"} true
-      %option{:value => "false"} false
-    - else
-      %option{:value => "true"} true
-      %option{:value => "false", :selected => "selected"} false
-%div.form-group.ml-1
-  %label File info:
-  %input.form-control{:name => "fifo",
-    :value => session[:bot]['main']['fifo']}
+%form{:class => "form-signin", :method => "POST"}
+  %h3 #{session[:bot]['mumble']['name']} Settings
+  %div.form-group.ml-1
+    %label Debug:
+    %select.form-control{:name => "debug"}
+      - if session[:bot]['debug'] == true 
+        %option{:value => "true", :selected => "selected"} true
+        %option{:value => "false"} false
+      - else
+        %option{:value => "true"} true
+        %option{:value => "false", :selected => "selected"} false
+  %div.form-group.ml-1
+    %label Language:
+    %input.form-control{:name => "lang", :value => session[:bot]['language']}
+  %h4 Main
+  %div.form-group.ml-1
+    %label Logfile:
+    %input.form-control{:name => "logfile", 
+      :value => session[:bot]['main']['logfile']}
+  %div.form-group.ml-1
+    %label Ducking:
+    %select.form-control{:name => "ducking"}
+      - if session[:bot]['main']['ducking'] == true 
+        %option{:value => "true", :selected => "selected"} true
+        %option{:value => "false"} false
+      - else
+        %option{:value => "true"} true
+        %option{:value => "false", :selected => "selected"} false
+  %div.form-group.ml-1
+    %label Automute if alone:
+    %select.form-control{:name => "automute_if_alone"}
+      - if session[:bot]['main']['automute_if_alone'] == true 
+        %option{:value => "true", :selected => "selected"} true
+        %option{:value => "false"} false
+      - else
+        %option{:value => "true"} true
+        %option{:value => "false", :selected => "selected"} false
+  %div.form-group.ml-1
+    %label Stop on unregistered:
+    %select.form-control
+      - if session[:bot]['main']['stop_on_unregistered'] == true 
+        %option{:value => "true", :selected => "selected"} true
+        %option{:value => "false"} false
+      - else
+        %option{:value => "true"} true
+        %option{:value => "false", :selected => "selected"} false
+  %div.form-group.ml-1
+    %label Whitelist enabled:
+    %select.form-control
+      - if session[:bot]['main']['whitelist_enabled'] == true 
+        %option{:value => "true", :selected => "selected"} true
+        %option{:value => "false"} false
+      - else
+        %option{:value => "true"} true
+        %option{:value => "false", :selected => "selected"} false
+  %div.form-group.ml-1
+    %label File info:
+    %input.form-control{:name => "fifo",
+      :value => session[:bot]['main']['fifo']}
 
-%h4 Control
-%div.form-group.ml-1
-  %label Command sign:
-  %input.form-control{:name => "string", 
-    :value => session[:bot]['main']['control']['string']}
-%div.form-group.ml-1
-  %label Private only:
-  %select.form-control
-    - if session[:bot]['main']['control']['message']['private_only'] == true
-      %option{:value => "true", :selected => "selected"} true
-      %option{:value => "false"} false
-    - else
-      %option{:value => "true"} true
-      %option{:value => "false", :selected => "selected"} false
-%div.form-group.ml-1
-  %label Registered only:
-  %select.form-control
-    - if session[:bot]['main']['control']['message']['registred_only'] == true
-      %option{:value => "true", :selected => "selected"} true
-      %option{:value => "false"} false
-    - else
-      %option{:value => "true"} true
-      %option{:value => "false", :selected => "selected"} false
-%div.form-group.ml-1
-  %label Historysize:
-  %input.form-control{:name => "historysize",
-    :value => session[:bot]['main']['control']['historysize']}
+  %h4 Control
+  %div.form-group.ml-1
+    %label Command sign:
+    %input.form-control{:name => "string", 
+      :value => session[:bot]['main']['control']['string']}
+  %div.form-group.ml-1
+    %label Private only:
+    %select.form-control
+      - if session[:bot]['main']['control']['message']['private_only'] == true
+        %option{:value => "true", :selected => "selected"} true
+        %option{:value => "false"} false
+      - else
+        %option{:value => "true"} true
+        %option{:value => "false", :selected => "selected"} false
+  %div.form-group.ml-1
+    %label Registered only:
+    %select.form-control
+      - if session[:bot]['main']['control']['message']['registred_only'] == true
+        %option{:value => "true", :selected => "selected"} true
+        %option{:value => "false"} false
+      - else
+        %option{:value => "true"} true
+        %option{:value => "false", :selected => "selected"} false
+  %div.form-group.ml-1
+    %label Historysize:
+    %input.form-control{:name => "historysize",
+      :value => session[:bot]['main']['control']['historysize']}
 
-%h4 User Config
-%div.form-group.ml-1
-  %label Whitelisted:
-  %input.form-control{:name => "whitelisted",
-    :value => session[:bot]['main']['user']['whitelisted']}
-%div.form-group.ml-1
-  %label Superuser:
-  %input.form-control{:name => "superuser",
-    :value => session[:bot]['main']['user']['superuser']}
-%div.form-group.ml-1
-  %label Banned:
-  %input.form-control{:name => "banned",
-    :value => session[:bot]['main']['user']['banned']}
-%div.form-group.ml-1
-  %label Bound:
-  %input.form-control{:name => "bound",
-    :value => session[:bot]['main']['user']['bound']}
+  %h4 User Config
+  %div.form-group.ml-1
+    %label Whitelisted:
+    %input.form-control{:name => "whitelisted",
+      :value => session[:bot]['main']['user']['whitelisted']}
+  %div.form-group.ml-1
+    %label Superuser:
+    %input.form-control{:name => "superuser",
+      :value => session[:bot]['main']['user']['superuser']}
+  %div.form-group.ml-1
+    %label Banned:
+    %input.form-control{:name => "banned",
+      :value => session[:bot]['main']['user']['banned']}
+  %div.form-group.ml-1
+    %label Bound:
+    %input.form-control{:name => "bound",
+      :value => session[:bot]['main']['user']['bound']}
 
-%h4 Mumble
-%div.form-group.ml-1
-  %label Botname:
-  %input.form-control{:name => "name",
-    :value => session[:bot]['mumble']['name']}
-%div.form-group.ml-1
-  %label Murmur Server:
-  %input.form-control{:name => "host",
-    :value => session[:bot]['mumble']['host']}
-%div.form-group.ml-1
-  %label Port:
-  %input.form-control{:name => "port",
-    :value => session[:bot]['mumble']['port']}
-%div.form-group.ml-1
-  %label Server password:
-  %input.form-control{:name => "password",
-    :value => session[:bot]['mumble']['password']}
-%div.form-group.ml-1
-  %label Default Channel:
-  %input.form-control{:name => "channel",
-    :value => session[:bot]['mumble']['channel']}
-%div.form-group.ml-1
-  %label Use VBR:
-  %input.form-control{:name => "use_vbr",
-    :value => session[:bot]['mumble']['use_vbr']}
-%div.form-group.ml-1
-  %label Bitrate:
-  %input{:class => "form-control", :type => "number"}
+  %h4 Mumble
+  %div.form-group.ml-1
+    %label Botname:
+    %input.form-control{:name => "name",
+      :value => session[:bot]['mumble']['name']}
+  %div.form-group.ml-1
+    %label Murmur Server:
+    %input.form-control{:name => "host",
+      :value => session[:bot]['mumble']['host']}
+  %div.form-group.ml-1
+    %label Port:
+    %input.form-control{:name => "port",
+      :value => session[:bot]['mumble']['port']}
+  %div.form-group.ml-1
+    %label Server password:
+    %input.form-control{:name => "password",
+      :value => session[:bot]['mumble']['password']}
+  %div.form-group.ml-1
+    %label Default Channel:
+    %input.form-control{:name => "channel",
+      :value => session[:bot]['mumble']['channel']}
+  %div.form-group.ml-1
+    %label Use VBR:
+    %input.form-control{:name => "use_vbr",
+      :value => session[:bot]['mumble']['use_vbr']}
+  %div.form-group.ml-1
+    %label Bitrate:
+    %input{:class => "form-control", :type => "number"}
+  = haml :savebtn

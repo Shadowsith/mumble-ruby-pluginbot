@@ -1,11 +1,13 @@
-%h3 Ektoplazm:
-%div{:class => "form-group ml-1"}
-  %label Download folder:
-  %input{:name => "folder_download", :class => "form-control", 
-  :value => yml.ep['folder']['download']}
-%div{:class => "form-group ml-1"}
-  %label Temp folder:
-  %input{:name => "folder_temp", :class => "form-control", :value => yml.ep['folder']['temp']}
-%div{:class => "form-group ml-1"}
-  %label Prefixes:
-  %input{:name => "prefixes", :class => "form-control", :value => yml.ep['prefixes']}
+%form.form-signin{:method => "POST"}
+  %h3 Ektoplazm:
+  %div.form-group.ml-1
+    %label Download folder:
+    %input.form-control{:name => "folder_download", 
+    :value => yml.ep['folder']['download']}
+  %div.form-group.ml-1
+    %label Temp folder:
+    %input.form-control{:name => "folder_temp", :value => yml.ep['folder']['temp']}
+  %div.form-group.ml-1
+    %label Prefixes:
+    %input.form-control{:name => "prefixes", :value => yml.ep['prefixes']}
+  = haml :savebtn
