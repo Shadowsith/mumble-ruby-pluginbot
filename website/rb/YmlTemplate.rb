@@ -1,6 +1,7 @@
 require "yaml"
 require "digest"
 
+# handling all yml files of the bot
 class YmlTemplate
   private
 
@@ -68,6 +69,25 @@ class YmlTemplate
     @bots = []
     @bots_path.each { |p| @bots.push(YAML.load_file(p)) }
     @sel_bot = @bots[0]
+  end
+
+  def setBot(session)
+    if(session[:bot] == nil) 
+      session[:bot] = @bots[0]
+    end
+  end 
+
+  # TODO exception block
+  def load_log(bot) 
+    f = bot['main']['logfile']
+    if(f == nil) 
+      return "No path to logfile"
+    end
+    if(File.file?(f))
+      File.read(bot['main']['logfile'])
+    else 
+      return "A log file does not exist"
+    end
   end
 
   def login(usr, pwd)
@@ -184,10 +204,10 @@ class YmlTemplate
     File.open(@@idle_config, "w") { |f| f.write @idle.to_yaml }
   end
 
-  def saveBot(post)
+  def saveBot(post, session)
     pos = 0 
     for b in @bots 
-      break if b == @sel_bot
+      break if b == session[:bot]
       pos += 1
     end
 
