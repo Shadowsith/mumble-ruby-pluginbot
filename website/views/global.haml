@@ -1,5 +1,6 @@
 %form{:class => "form-signin", :method => "POST"}
   %h3 #{session[:bot]['mumble']['name']} Settings
+  %hr
   %div.form-group.ml-1
     %label Debug:
     %select.form-control{:name => "debug"}
@@ -12,7 +13,10 @@
   %div.form-group.ml-1
     %label Language:
     %input.form-control{:name => "lang", :value => session[:bot]['language']}
+  %br
+
   %h4 Main
+  %hr
   %div.form-group.ml-1
     %label Logfile:
     %input.form-control{:name => "logfile", 
@@ -57,8 +61,10 @@
     %label File info:
     %input.form-control{:name => "fifo",
       :value => session[:bot]['main']['fifo']}
+  %br
 
   %h4 Control
+  %hr
   %div.form-group.ml-1
     %label Command sign:
     %input.form-control{:name => "string", 
@@ -87,6 +93,7 @@
       :value => session[:bot]['main']['control']['historysize']}
 
   %h4 User Config
+  %hr
   %div.form-group.ml-1
     %label Whitelisted:
     %input.form-control{:name => "whitelisted",
@@ -103,8 +110,10 @@
     %label Bound:
     %input.form-control{:name => "bound",
       :value => session[:bot]['main']['user']['bound']}
+  %br
 
   %h4 Mumble
+  %hr
   %div.form-group.ml-1
     %label Botname:
     %input.form-control{:name => "name",

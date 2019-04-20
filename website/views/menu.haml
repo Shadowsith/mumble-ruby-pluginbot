@@ -32,25 +32,16 @@
               %a.dropdown-item{:href => "/#{b['mumble']['name']}"} 
                 #{b['mumble']['name']}
         %li.nav-item
+          %a.nav-link{:href => "/plugins"} Plugins
+        %li.nav-item
+          %a.nav-link{:href => "/player"} Music Player
+        %li.nav-item
           %a.nav-link{:href => "/log"} Log
         %li.nav-item
           %a.nav-link{:target => "_blank", 
             :href => "https://mumble-ruby-pluginbot.readthedocs.io/en/master/"}
             Help
       %ul.navbar-nav.ml-auto
-        %li.nav-item.pr-1
-          %div.dropdown
-            %button.btn.btn-outline-light.dropdown-toggle{:type => "button", 
-              :"data-toggle" => "dropdown"} Controls
-            %ul.dropdown-menu
-              %li.pl-2
-                %form{:action => "/bot_start", :method => "post"}
-                  %a{:href => "#", :name => "bot", :value => "start"} Start
-              %li.pl-2
-                %form{:action => "/bot_stop", :method => "post"}
-                  %a{:href => "#", :name => "bot", :value => "stop"} Stop
-
-
         %li.nav-item.pr-1
           %form{:action => "/bot_start", :method => "post"}
             %button.btn.btn-outline-light{:name => "bot", :value => "start"} Start

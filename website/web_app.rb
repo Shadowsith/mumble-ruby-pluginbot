@@ -4,9 +4,11 @@ require "haml"
 require_relative "./rb/HtmlTemplate.rb"
 require_relative "./rb/YmlTemplate.rb"
 require_relative "./rb/LaunchControl.rb"
+require_relative "./rb/PluginControl.rb"
 
 class Pluginbot < Sinatra::Base
   include Bot::LaunchControl
+  include Bot::PluginControl
 
   private
 
@@ -105,6 +107,8 @@ class Pluginbot < Sinatra::Base
         haml :index
       when "log"
         setContent("log")
+        haml :index
+      when "plugins"
         haml :index
       when "logout"
         session[:login] = false
