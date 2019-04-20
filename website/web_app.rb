@@ -42,6 +42,7 @@ class Pluginbot < Sinatra::Base
     return @@yml
   end
 
+  # TODO remove this method, has no practical use
   def setContent(content)
     session[:index_content] = content
     session[:last_visit] = content

@@ -66,7 +66,7 @@ module Bot
 
     def getInstances
       @path = File.dirname(File.expand_path(__FILE__))
-      @bots_path = `ls #{@@instance_config}`.split(" ")
+      @bots_path = Dir[@@instance_config]
       @bots = []
       @bots_path.each { |p| @bots.push(YAML.load_file(p)) }
     end

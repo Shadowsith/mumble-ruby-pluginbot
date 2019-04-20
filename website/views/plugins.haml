@@ -1,4 +1,21 @@
-%h3 Plugins:
+%h4 Enabled Plugins:
 - for p in getEnabledPlugins 
-  %h5 #{p}
+  %div.row
+    %div.col
+      %h5 #{p}
+    %div.col
+      %form{:method => "post"}
+        %button.btn.btn-danger Disable
   %hr
+  %p
+%h4 Disabled Plugins:
+- for p in getDisabledPlugins
+  %div.row
+    %div.col
+      %h5 #{p}
+    %div.col
+      %form{:method => "post"}
+        %button.btn.btn-primary Enable
+  %hr
+  %p
+%br
