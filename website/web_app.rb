@@ -3,12 +3,15 @@ require "sinatra/base"
 require "haml"
 require_relative "./rb/HtmlTemplate.rb"
 require_relative "./rb/YmlTemplate.rb"
+require_relative "./rb/LaunchControl.rb"
 
 class Pluginbot < Sinatra::Base
+  include Bot::LaunchControl
+
   private
 
-  @@html = HtmlTemplate.new
-  @@yml = YmlTemplate.new
+  @@html = Bot::HtmlTemplate.new
+  @@yml = Bot::YmlTemplate.new
 
   public
 
@@ -62,8 +65,6 @@ class Pluginbot < Sinatra::Base
     end
 
     if (!isRouted)
-      
-
       case route
       when "login"
         redirect "/index" if session["login"] == true
@@ -116,8 +117,8 @@ class Pluginbot < Sinatra::Base
   end
 
   def handlePost(route, post)
-    if(session[:login])
-      case route 
+    if (session[:login])
+      case route
       when "youtube"
         @@yml.saveYoutube(post)
       when "mpd"
@@ -138,13 +139,13 @@ class Pluginbot < Sinatra::Base
         @@yml.saveIdle(post)
       when "index"
         @@yml.saveBot(post, session)
-      else 
+      else
         redirect "/index"
         return
       end
       redirect "/#{route}"
-    else 
-      if(route == "login")
+    else
+      if (route == "login")
         login(post)
       end
     end
@@ -157,10 +158,10 @@ class Pluginbot < Sinatra::Base
     setRoute(route)
   end
 
-  post "/*" do 
+  post "/*" do
     route = params[:splat].first
     handlePost(route, params)
-  end 
+  end
 
   post "/login" do
     login(params)
@@ -206,21 +207,27 @@ class Pluginbot < Sinatra::Base
     redirect "/picotts"
   end
 
-  post "/idle" do 
+  post "/idle" do
     @@yml.saveIdle(params)
   end
 
   post "/index" do
-      @@yml.saveBot(params, session)
-      redirect "/index"
-  end
-
-  post "/bot_start" do 
+    @@yml.saveBot(params, session)
     redirect "/index"
   end
 
-  post "/bot_stop" do 
+  post "/bot_start" do
+    start_bots()
+    redirect "/index"
+  end
+
+  post "/bot_stop" do
+    stop_bots()
     redirect "index"
+  end
+
+  post "/bot_ytldl" do
+    update_ytdl()
   end
 
   run!
