@@ -1,6 +1,6 @@
 # this plugin requiers SVOXs Pico text to speech engine installed
 # pico2wave --lang de-DE --wave ./test.wav "Hier folgt der Test-Text"
-require "./TextToSpeechHelper.rb";
+require_relative "./TextToSpeechHelper.rb"
 
 # TODO requires check if ffmpeg exists
 class PicoTTSHelper < TextToSpeechHelper

@@ -1,5 +1,5 @@
 # This plugin requires mplayer
-require "./TextToSpeechHelper.rb"
+require_relative "./TextToSpeechHelper.rb"
 
 # TODO requires check if mplayer and ffmpeg exists
 class GoogleTTSHelper < TextToSpeechHelper
