@@ -1,19 +1,24 @@
 module Bot
   module LaunchControl
+    def getControlPath
+      File.dirname(File.expand_path(__FILE__))
+    end
+
     def start_bots
-      system("../../scripts/manage.sh start")
+      `#{getControlPath}/../../scripts/manage.sh start`
     end
 
     def stop_bots
-      system("../../scripts/manage.sh stop")
+      `#{getControlPath}/../../scripts/manage.sh stop`
     end
 
     def update_ytdl
-      system("../../scripts/manage.sh uytdl")
+      `#{getControlPath}/../../scripts/manage.sh uytdl`
     end
 
     def status_bots
-      out = `../../scripts/manage.sh status`
+      out = `#{getControlPath}/../../scripts/manage.sh status`
+      puts out
     end
   end
 end

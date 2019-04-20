@@ -144,6 +144,10 @@ class Pluginbot < Sinatra::Base
         @@yml.saveIdle(post)
       when "index"
         @@yml.saveBot(post, session)
+      when "bot_start"
+        start_bots()
+      when "bot_stop"
+        stop_bots()
       else
         redirect "/index"
         return
@@ -222,6 +226,7 @@ class Pluginbot < Sinatra::Base
   end
 
   post "/bot_start" do
+    puts "test"
     start_bots()
     redirect "/index"
   end
