@@ -2,6 +2,8 @@
 %html
   %head
     = haml :head
+    #{script.call_rdy()}
+    #{script.clear_calls()}
 
   %body
     = haml :menu

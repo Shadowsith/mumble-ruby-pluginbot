@@ -5,6 +5,7 @@ require_relative "./rb/HtmlTemplate.rb"
 require_relative "./rb/YmlTemplate.rb"
 require_relative "./rb/LaunchControl.rb"
 require_relative "./rb/PluginControl.rb"
+require_relative "./rb/EScript.rb"
 
 class Pluginbot < Sinatra::Base
   include Bot::LaunchControl
@@ -14,6 +15,7 @@ class Pluginbot < Sinatra::Base
 
   @@html = Bot::HtmlTemplate.new
   @@yml = Bot::YmlTemplate.new
+  @@script = Bot::EScript.new
 
   public
 
@@ -23,15 +25,20 @@ class Pluginbot < Sinatra::Base
   def login(params)
     usr = params[:username]
     pwd = params[:password]
-    # dummy test 'login'
     if (@@yml.login(usr, pwd))
       session[:login] = true
       session[:usr] = usr
       yml.setBot(session)
+      @@script.store_call("$.announce.success('Logged In!');")
       redirect "/index"
     else
-      haml :login
+      @@script.store_call("$.announce.danger('User or password was not correct!');")
+      redirect "/login"
     end
+  end
+
+  def script
+    return @@script
   end
 
   def html
@@ -114,9 +121,11 @@ class Pluginbot < Sinatra::Base
       when "logout"
         session[:login] = false
         session[:usr] = nil
+        @@script.store_call("$.announce.info('Logged Out!')")
         redirect "/login"
       else
-        haml :login
+        redirect "/index" if session[:login]
+        redirect "/login"
       end
     end
   end
@@ -146,9 +155,11 @@ class Pluginbot < Sinatra::Base
         @@yml.saveBot(post, session)
       when "bot_start"
         start_bots()
+        @@script.store_call("$.announce.success('Bots started!');")
         redirect "/index"
       when "bot_stop"
         stop_bots()
+        @@script.store_call("$.announce.warning('Bots stopped!');")
         redirect "/index"
       else
         redirect "/index"
@@ -172,74 +183,6 @@ class Pluginbot < Sinatra::Base
   post "/*" do
     route = params[:splat].first
     handlePost(route, params)
-  end
-
-  post "/login" do
-    login(params)
-  end
-
-  post "/youtube" do
-    @@yml.saveYoutube(params)
-    redirect "/youtube"
-  end
-
-  post "/mpd" do
-    @@yml.saveMpd(params)
-    redirect "/mpd"
-  end
-
-  post "/soundcloud" do
-    @@yml.saveSoundCloud(params)
-    redirect "/soundcloud"
-  end
-
-  post "/mixcloud" do
-    @@yml.saveMixCloud(params)
-    redirect "/mixcloud"
-  end
-
-  post "/bandcamp" do
-    @@yml.saveBandCamp(params)
-    redirect "/bandcamp"
-  end
-
-  post "/ektoplazm" do
-    @@yml.saveEktoplazm(params)
-    redirect "/ektoplazm"
-  end
-
-  post "/googletts" do
-    @@yml.saveGoogleTTS(params)
-    redirect "/googletts"
-  end
-
-  post "/picotts" do
-    @@yml.savePicoTTS(params)
-    redirect "/picotts"
-  end
-
-  post "/idle" do
-    @@yml.saveIdle(params)
-  end
-
-  post "/index" do
-    @@yml.saveBot(params, session)
-    redirect "/index"
-  end
-
-  post "/bot_start" do
-    puts "test"
-    start_bots()
-    redirect "/index"
-  end
-
-  post "/bot_stop" do
-    stop_bots()
-    redirect "index"
-  end
-
-  post "/bot_ytldl" do
-    update_ytdl()
   end
 
   run!

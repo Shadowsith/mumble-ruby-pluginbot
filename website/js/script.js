@@ -4,7 +4,9 @@ $(document).ready(function () {
 
 class Pluginbot {
     static autoHeight(elem) {
-        elem.style.height='auto';
-        elem.style.height=elem.scrollHeight+'px';
+        if(elem !== undefined) {
+            elem.style.height='auto';
+            elem.style.height=elem.scrollHeight+'px';
+        }
     }
 }
