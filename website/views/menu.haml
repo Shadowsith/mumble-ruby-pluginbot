@@ -43,6 +43,9 @@
             Help
       %ul.navbar-nav.ml-auto
         %li.nav-item.pr-1
+          %button.btn.btn-outline-light{:"data-toggle" => "modal", 
+            :"data-target" => "#accountModal"} Account
+        %li.nav-item.pr-1
           %form{:action => "/bot_start", :method => "post"}
             %button.btn.btn-outline-light{:name => "bot", :value => "start"} Start
         %li.nav-item.pr-1

@@ -7,9 +7,11 @@
 
   %body
     = haml :menu
+    = haml :account_modal
 
     %div{:class => "container-fluid mt-3"}
       = haml :"#{session['index_content']}"
+
 
     %footer{:class => "fixed-bottom bg-danger text-center"}
       %a{:class => "text-light", :target => "_blank",
