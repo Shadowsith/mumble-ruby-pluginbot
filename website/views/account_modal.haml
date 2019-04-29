@@ -17,8 +17,7 @@
                   :disabled => "disabled"}
               .form-group
                 %label E-Mail:
-                %input.form-control{:value => session[:usr], :name => "email", 
-                  :disabled => "disabled"}
+                %input.form-control{:value => session[:email], :name => "email"}
               .form-group.form-check
                 %input#newPassword.form-check-input{:type => "checkbox"}
                 %label.form-check-label{:for => "newPassword"}  

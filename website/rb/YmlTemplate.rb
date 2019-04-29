@@ -52,6 +52,10 @@ module Bot
       getInstances()
     end
 
+    def loadFile(path)
+      return YAMl.load_file(path)
+    end
+
     def loadYaml()
       @mpd_file = YAML.load_file(@@mpd_config)
       @youtube = YAML.load_file(@@youtube_config)
@@ -100,6 +104,17 @@ module Bot
         end
       end
       return false
+    end
+
+    def setSession(session)
+      @login = YAML.load_file(@@login_config)
+      for obj in @login["login"]
+        if (obj["usr"] == session[:usr])
+          session[:admin] = obj["isAdmin"]
+          session[:email] = obj["email"]
+          break
+        end
+      end
     end
 
     def writeYtDl(params)

@@ -1,23 +1,23 @@
 module Bot
   module LaunchControl
-    def getControlPath
-      File.dirname(File.expand_path(__FILE__))
+    class Config
+      PATH = File.dirname(File.expand_path(__FILE__))
     end
 
     def start_bots
-      `#{getControlPath}/../../scripts/manage.sh start`
+      `#{Config::PATH}/../../scripts/manage.sh start`
     end
 
     def stop_bots
-      `#{getControlPath}/../../scripts/manage.sh stop`
+      `#{Config::PATH}/../../scripts/manage.sh stop`
     end
 
     def update_ytdl
-      `#{getControlPath}/../../scripts/manage.sh uytdl`
+      `#{Config::PATH}/../../scripts/manage.sh uytdl`
     end
 
     def status_bots
-      out = `#{getControlPath}/../../scripts/manage.sh status`
+      out = `#{Config::PATH}/../../scripts/manage.sh status`
       puts out
     end
   end

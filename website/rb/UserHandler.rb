@@ -1,7 +1,6 @@
-require "yaml"
 
 module Bot
-  module IUserHandler
+  module UserHandler
     class Config
       FILE = "/../login.yml"
       PATH = File.dirname(File.expand_path(__FILE__)) + FILE
@@ -9,7 +8,7 @@ module Bot
 
     def addUser(post, session)
       if (session[:isAdmin] == true)
-        conf = YAML.load_file(Config::PATH)
+        conf = yml.loadFile(Config::PATH)
       end
     end
 
@@ -30,7 +29,7 @@ module Bot
     end
 
     def changeUserSettings(post, session)
-      conf = YAML.load_file(Config::PATH)
+      conf = yml.loadFile(Config::PATH)
       data = getCurUsr(post, session)
       usr = data[:usr]
       usr["email"] = post[:email]
@@ -42,19 +41,13 @@ module Bot
       if (session[:isAdmin] == true)
       end
 
-      conf = YAML.load_file(Config::PATH)
+      conf = yml.loadFile(Config::PATH)
     end
 
     def deleteUser(post, session)
       if (session[:isAdmin] == true)
-        conf = YAML.load_file(Config::PATH)
+        conf = yml.loadFile(Config::PATH)
       end
     end
   end
 end
-
-class Test
-  include Bot::IUserHandler
-end
-
-puts Test.new.changeUserSettings("")
