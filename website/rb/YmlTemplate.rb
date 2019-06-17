@@ -53,7 +53,8 @@ module Bot
     end
 
     def loadFile(path)
-      return YAMl.load_file(path)
+      puts path
+      return YAML.load_file(path)
     end
 
     def loadYaml()

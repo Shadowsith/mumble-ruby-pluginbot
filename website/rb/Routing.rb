@@ -1,8 +1,10 @@
 require_relative "./SessionHandler.rb"
+require_relative "./UserHandler.rb"
 
 module Bot
   module Routing
     include SessionHandler
+    include UserHandler
 
     def routeBot(route)
       for b in yml.bots
@@ -99,6 +101,9 @@ module Bot
         when "bot_stop"
           stop_bots()
           script.store_call("$.announce.warning('Bots stopped!');")
+          redirect "/index"
+        when "account_change"
+          changeUserSettings(post, session)
           redirect "/index"
         else
           redirect "/index"

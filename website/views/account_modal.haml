@@ -1,6 +1,6 @@
 #accountModal.modal.fade{"aria-hidden" => "true", 
   "aria-labelledby" => "accountModal", :role => "dialog", :tabindex => "-1"}
-  %form{:method => "POST"}
+  %form{:method => "POST", :action => "/account_change"}
     .modal-dialog{:role => "document"}
       .modal-content
         .modal-header
@@ -19,7 +19,7 @@
                 %label E-Mail:
                 %input.form-control{:value => session[:email], :name => "email"}
               .form-group.form-check
-                %input#newPassword.form-check-input{:type => "checkbox"}
+                %input#newPassword.form-check-input{:type => "checkbox", :name => "changePw"}
                 %label.form-check-label{:for => "newPassword"}  
                   Change password:
           .row#newPwRow
@@ -37,4 +37,4 @@
         .modal-footer
           %button.btn.btn-secondary{"data-dismiss" => "modal",
             :type => "button"} Close
-          %button.btn.btn-primary{:type => "button"} Save
+          %button.btn.btn-primary{:type => "submit"} Save

@@ -1,3 +1,4 @@
+require "digest"
 
 module Bot
   module UserHandler
@@ -29,12 +30,39 @@ module Bot
     end
 
     def changeUserSettings(post, session)
-      conf = yml.loadFile(Config::PATH)
-      data = getCurUsr(post, session)
-      usr = data[:usr]
-      usr["email"] = post[:email]
-
-      conf["login"][data[:pos]] = usr
+      if File.exists?(Config::PATH)
+        puts post
+        conf = yml.loadFile(Config::PATH)
+        data = getCurUsr(conf, session)
+        usr = data[:usr]
+        if post[:email] != ""
+          usr["email"] = post[:email]
+        end
+        if post[:changePw] == "on"
+          if post[:oldpw] != "" && post[:newpw] != "" && post[:newpwrpt] != ""
+            if Digest::SHA512.hexdigest(post[:oldpw]) == usr["pwd"]
+              if post[:newpw] == post[:newpwrpt]
+                usr["pwd"] = Digest::SHA512.hexdigest(post[:newpw])
+              else
+                script.store_call("$.announce.danger('New password is not the same!')")
+                return
+              end
+            else
+              script.store_call("$.announce.danger('Old password is not correct!')")
+              return
+            end
+          else
+            script.store_call("$.announce.danger('Fields for changing password are empty!')")
+            return
+          end
+        end
+        conf["login"][data[:pos]] = usr
+        File.open(Config::PATH, "w") { |f| f.write conf.to_yaml }
+        session[:email] = post[:email]
+        script.store_call("$.announce.success('User settings changed successfully')")
+      else
+        script.store_call("$.announce.danger('Critical Error: User settings does not exist anymore!')")
+      end
     end
 
     def registerUser(post, session)
