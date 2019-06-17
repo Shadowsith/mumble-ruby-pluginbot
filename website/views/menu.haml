@@ -58,10 +58,10 @@
               %a.nav-link{:href => "#", :"data-toggle" => "modal", 
               :"data-target" => "#accountModal"} Account
         %li.nav-item.dropdown
-          %a#settings.nav-link.dropdown-toggle{:href => "#",
+          %a#botControls.nav-link.dropdown-toggle{:href => "#",
             :"data-toggle" => "dropdown", :"aria-haspopup" => "true", 
             :"aria-expanded" => "false"} Controls
-          %div.dropdown-menu{:"aria-labelledby" => "settings"}
+          %div.dropdown-menu{:"aria-labelledby" => "botControls"}
             %a.dropdown-item{:href => "#"}
               %form{:action => "/bot_start", :method => "post"}
                 %button.btn.btn-link{:name => "bot", :value => "start"} Start

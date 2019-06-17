@@ -27,6 +27,9 @@ module Bot
       return true
     end
 
+    def usrAdmin?()
+    end
+
     def login(params)
       if loginProtection
         usr = params[:username]

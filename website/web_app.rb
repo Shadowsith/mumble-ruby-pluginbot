@@ -21,7 +21,25 @@ class Pluginbot < Sinatra::Base
   @@yml = Bot::YmlTemplate.new
   @@script = Bot::EScript.new
 
+  @@msgBox = {
+    :txt => "",
+    :btn => "",
+    :type => "",
+    :event => "",
+  }
+
   public
+
+  def getMsgBox()
+    return @@msgBox
+  end
+
+  def setMsgBox(txt, btn, type, e)
+    @@msgBox[:txt] = txt
+    @@msgBox[:btn] = btn
+    @@msgBox[:type] = type
+    @@msgBox[:event] = e
+  end
 
   set :public_folder, File.dirname(File.expand_path(__FILE__)) + "/"
   enable :sessions

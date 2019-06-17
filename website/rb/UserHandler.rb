@@ -8,7 +8,13 @@ module Bot
     end
 
     def addUser(post, session)
-      if (session[:isAdmin] == true)
+      if (session[:admin] == true)
+        conf = yml.loadFile(Config::PATH)
+      end
+    end
+
+    def getAllUsr(session)
+      if (session[:admin] == true)
         conf = yml.loadFile(Config::PATH)
       end
     end
@@ -67,7 +73,7 @@ module Bot
     end
 
     def registerUser(post, session)
-      if (session[:isAdmin] == true)
+      if (session[:admin] == true)
       end
 
       conf = yml.loadFile(Config::PATH)

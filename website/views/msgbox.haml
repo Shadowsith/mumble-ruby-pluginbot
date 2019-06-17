@@ -1,0 +1,10 @@
+#msgBox.modal.fade{"aria-hidden" => "true", 
+  "aria-labelledby" => "msgBox", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog{:role => "document"}
+    .modal-content
+      .modal-body
+        %p #{getMsgBox[:txt]}
+      .modal-footer
+        %button.btn.btn-secondary{"data-dismiss" => "modal",
+          :type => "button"} Close
+        %button{:class => `btn btn-#{getMsgBox[:type]}`} #{getMsgBox[:btn]}

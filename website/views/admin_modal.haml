@@ -1,40 +1,85 @@
 #adminModal.modal.fade{"aria-hidden" => "true", 
   "aria-labelledby" => "adminModal", :role => "dialog", :tabindex => "-1"}
-  %form{:method => "POST", :action => "/admin_change"}
-    .modal-dialog{:role => "document"}
-      .modal-content
-        .modal-header
-          %h5.modal-title User Settings:
-          %button.close{"aria-label" => "Close", "data-dismiss" => "modal",
-          :type => "button"}
-            %span{"aria-hidden" => "true"} ×
-        .modal-body
-          .row
-            .col-12
-              .form-group
-                %label Name:
-                %input.form-control{:value => session[:usr], 
-                  :disabled => "disabled"}
-              .form-group
-                %label E-Mail:
-                %input.form-control{:value => session[:email], :name => "email"}
-              .form-group.form-check
-                %input#newPassword.form-check-input{:type => "checkbox", :name => "changePw"}
-                %label.form-check-label{:for => "newPassword"}  
-                  Change password:
-          .row#newPwRow
-            .col-12
-              .form-group
-                %label Old password:
-                %input.form-control{:name => "oldpw"}
-              .form-group#NewPwGrp
-                %label New password:
-                %input.form-control{:name => "newpw"}
-              .form-group
-                %label Repeat new password:
-                %input.form-control{:name => "newpwrpt"}
+  .modal-dialog{:role => "document"}
+    .modal-content
+      .modal-header
+        %h4.modal-title Admin Settings:
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal",
+        :type => "button"}
+          %span{"aria-hidden" => "true"} ×
+      .modal-body
+        .row
+          .col-12
+            .panel-group
+              .panel.panel-default
+                .panel-heading
+                  %h5.panel-title
+                    %a{"data-toggle" => "collapse", :href => "#cAddUser"} Add User
+            #cAddUser.panel-collapse.collapse
+              %hr
+              %form
+                .panel-body
+                  .form-group
+                    %label Name:
+                    %input.form-control
+                  .form-group
+                    %label E-Mail:
+                    %input.form-control
+                  .form-group
+                    %label Password:
+                    %input.form-control
+                  .form-group
+                    %label Repeat Password:
+                    %input.form-control
+                .panel-footer
+                  %button.btn.btn-secondary Abort
+                  %button.btn.btn-success Add
+            %hr
+            .panel-group
+              .panel.panel-default
+                .panel-heading
+                  %h5.panel-title
+                    %a{"data-toggle" => "collapse", :href => "#cChangeUser"} Change User
+            #cChangeUser.panel-collapse.collapse
+              %hr
+              %form
+                .panel-body
+                  .form-group
+                    %label Select User:
+                    %select.from-control
+                  .form-group
+                    %label New Name:
+                    %input.form-control
+                  .form-group
+                    %label New Mail:
+                    %input.form-control
+                  .form-group
+                    %label Password:
+                    %input.form-control
+                  .form-group
+                    %label Repeat Password:
+                    %input.form-control
+                .panel-footer
+                  %button.btn.btn-secondary Abort
+                  %button.btn.btn-warning Change
 
-        .modal-footer
-          %button.btn.btn-secondary{"data-dismiss" => "modal",
-            :type => "button"} Close
-          %button.btn.btn-primary{:type => "submit"} Save
+            %hr
+            .panel-group
+              .panel.panel-default
+                .panel-heading
+                  %h5.panel-title
+                    %a{"data-toggle" => "collapse", :href => "#cDelUser"} Delete User
+            #cDelUser.panel-collapse.collapse
+              %hr
+              %form
+                .panel-body
+                  .form-group
+                    %label Select User:
+                    %select.from-control
+                .panel-footer
+                  %button.btn.btn-secondary Abort
+                  %button.btn.btn-danger Delete
+
+      .modal-footer
+        %button.btn.btn-secondary{"data-dismiss" => "modal",
+          :type => "button"} Close
