@@ -1,7 +1,10 @@
 require "date"
+require_relative "./UserHandler.rb"
 
 module Bot
   module SessionHandler
+    include UserHandler
+
     def loginProtection()
       if session[:login_counter] == nil
         session[:login_counter] = 0
@@ -32,6 +35,7 @@ module Bot
           session[:login_counter] = 0
           session[:login] = true
           session[:usr] = usr
+          session[:admin] = getCurUsr(session)[:usr]["isAdmin"]
           yml.setSession(session)
           yml.setBot(session)
           script.store_call("$.announce.success('Logged In!');")

@@ -1,5 +1,6 @@
 // TODO need to handle this from ruby
 $(document).ready(function () {
+    $.announce.defaults.customColors = true;
     Pluginbot.autoHeight($('textarea')[0]);
     Pluginbot.setDefaultValues();
     Pluginbot.registerEvents();

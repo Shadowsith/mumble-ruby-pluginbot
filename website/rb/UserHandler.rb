@@ -13,7 +13,8 @@ module Bot
       end
     end
 
-    def getCurUsr(conf, session)
+    def getCurUsr(session, conf = "")
+      conf = yml.loadFile(Config::PATH) if conf == ""
       data = {}
       pos = 0
       usr = ""
@@ -33,7 +34,7 @@ module Bot
       if File.exists?(Config::PATH)
         puts post
         conf = yml.loadFile(Config::PATH)
-        data = getCurUsr(conf, session)
+        data = getCurUsr(session, conf)
         usr = data[:usr]
         if post[:email] != ""
           usr["email"] = post[:email]
@@ -73,7 +74,7 @@ module Bot
     end
 
     def deleteUser(post, session)
-      if (session[:isAdmin] == true)
+      if (session[:admin] == true)
         conf = yml.loadFile(Config::PATH)
       end
     end
