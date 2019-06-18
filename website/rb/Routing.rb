@@ -6,7 +6,7 @@ module Bot
     include SessionHandler
     include UserHandler
 
-    def routeBot(route)
+    def routed?(route)
       for b in yml.bots
         if route == b["mumble"]["name"]
           session[:bot] = b
@@ -18,16 +18,13 @@ module Bot
       return false
     end
 
-    def routeGET(route)
-      puts "Route: #{route}"
+    def GET(route)
       if (route != "login")
         session[:index_content] = route
         redirect "/login" if session[:login] != true
       end
 
-      isRouted = routeBot(route)
-
-      if (!isRouted)
+      if (!routed?(route))
         case route
         when "login"
           redirect "/index" if session["login"] == true
@@ -62,7 +59,8 @@ module Bot
         when "plugins"
           haml :index
         when "logout"
-          logout(session)
+          SessionHandler.logout(session)
+          script.store_call("$.announce.info('Logged Out!')")
           redirect "/login"
         else
           redirect "/index" if session[:login]
@@ -71,7 +69,7 @@ module Bot
       end
     end
 
-    def routePOST(route, post)
+    def POST(route, post)
       if (session[:login])
         case route
         when "youtube"
@@ -95,11 +93,11 @@ module Bot
         when "index"
           yml.saveBot(post, session)
         when "bot_start"
-          start_bots()
+          LaunchControl.start_bots()
           script.store_call("$.announce.success('Bots started!');")
           redirect "/index"
         when "bot_stop"
-          stop_bots()
+          LaunchControl.stop_bots()
           script.store_call("$.announce.warning('Bots stopped!');")
           redirect "/index"
         when "account_change"
@@ -112,7 +110,7 @@ module Bot
         redirect "/#{route}"
       else
         if (route == "login")
-          login(post)
+          SessionHandler.login(self, session, post)
         end
       end
     end

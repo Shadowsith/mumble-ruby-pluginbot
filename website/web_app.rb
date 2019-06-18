@@ -10,16 +10,14 @@ require_relative "./rb/Routing.rb"
 require_relative "./rb/UserHandler.rb"
 
 class Pluginbot < Sinatra::Base
-  include Bot::LaunchControl
-  include Bot::PluginControl
   include Bot::Routing
-  include Bot::UserHandler
 
   private
 
   @@html = Bot::HtmlTemplate.new
   @@yml = Bot::YmlTemplate.new
   @@script = Bot::EScript.new
+  @@plugins = Bot::PluginControl.new
 
   @@msgBox = {
     :txt => "",
@@ -56,16 +54,20 @@ class Pluginbot < Sinatra::Base
     return @@yml
   end
 
+  def plugins
+    return @@plugins
+  end
+
   # Endpoints
 
   get "/*" do
     route = params[:splat].first
-    routeGET(route)
+    GET(route)
   end
 
   post "/*" do
     route = params[:splat].first
-    routePOST(route, params)
+    POST(route, params)
   end
 
   run!

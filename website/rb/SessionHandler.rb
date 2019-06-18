@@ -5,7 +5,7 @@ module Bot
   module SessionHandler
     include UserHandler
 
-    def loginProtection()
+    def self.loginProtection(session)
       if session[:login_counter] == nil
         session[:login_counter] = 0
       else
@@ -30,40 +30,39 @@ module Bot
     def usrAdmin?()
     end
 
-    def login(params)
-      if loginProtection
+    def self.login(app, session, params)
+      if self.loginProtection(session)
         usr = params[:username]
         pwd = params[:password]
-        if (yml.login(usr, pwd))
+        if (app.yml.login(usr, pwd))
           session[:login_counter] = 0
           session[:login] = true
           session[:usr] = usr
-          session[:admin] = getCurUsr(session)[:usr]["isAdmin"]
-          yml.setSession(session)
-          yml.setBot(session)
-          script.store_call("$.announce.success('Logged In!');")
-          redirect "/index"
+          session[:admin] = app.getCurUsr(session)[:usr]["isAdmin"]
+          app.yml.setSession(session)
+          app.yml.setBot(session)
+          app.script.store_call("$.announce.success('Logged In!');")
+          app.redirect "/index"
         else
-          script.store_call(
+          app.script.store_call(
             "$.announce.danger('User or password was not correct!');"
           )
-          redirect "/login"
+          app.redirect "/login"
         end
       else
-        script.store_call(
+        app.script.store_call(
           "$.announce.danger('To many tries! Wait for #{session[:login_next_try]} minutes');"
         )
-        redirect "/login"
+        app.redirect "/login"
       end
     end
 
-    def logout(session)
+    def self.logout(session)
       session[:login] = false
       session[:usr] = nil
       session[:admin] = nil
       session[:email] = nil
       session[:login_counter] = 0
-      script.store_call("$.announce.info('Logged Out!')")
     end
   end
 end
