@@ -8,6 +8,7 @@ require_relative "./rb/PluginControl.rb"
 require_relative "./rb/EScript.rb"
 require_relative "./rb/Routing.rb"
 require_relative "./rb/UserHandler.rb"
+require_relative "./rb/WebConsole.rb"
 
 class Pluginbot < Sinatra::Base
   include Bot::Routing
@@ -18,6 +19,7 @@ class Pluginbot < Sinatra::Base
   @@yml = Bot::YmlTemplate.new
   @@script = Bot::EScript.new
   @@plugins = Bot::PluginControl.new
+  @@console = Bot::WebConnector.new
 
   @@msgBox = {
     :txt => "",
