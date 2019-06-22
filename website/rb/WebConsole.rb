@@ -1,5 +1,4 @@
 require "mumble-ruby"
-require_relative "../../core/pluginbot.rb"
 require_relative "../../helpers/conf.rb"
 
 module Bot
@@ -14,22 +13,15 @@ module Bot
 
     def initialize()
       @web_console = "Web_Console"
-      @cli = Mumble::Client.new(Conf.gvalue("mumble:host"),
-                                Conf.gvalue("mumble:port")) do |conf|
-        conf.username = @web_console
+      @cli = Mumble::Client.new("maypi") do |conf|
+        conf.username = "Web_Console"
         conf.password = Conf.gvalue("mumble:password")
-        conf.bitrate = Conf.gvalue("mumble:bitrate").to_i
-        if Conf.gvalue("mumble:use_vbr)").to_s.to_bool == true
-          conf.vbr_rate = 1
-        else
-          conf.vbr_rate = 0
-        end
-        conf.ssl_cert_opts[:cert_dir] = File.expand_path(Conf.gvalue("main:certfolder"))
       end
     end
 
     def connect()
       @cli.connect
+      sleep 2
       while not @cli.connected?
         sleep(0.5)
         max_connecting_time -= 1
@@ -40,6 +32,7 @@ module Bot
       end
       @cli.on_connected do
         @cli.join_channel(Conf.gvalue("mumble:channel"))
+        run()
       end
     end
 
@@ -59,7 +52,6 @@ module Bot
       case @@cmd.event
       when "msg_user"
         @cli.text_user(@@cmd.target, @@cmd.msg)
-        break
       when "msg_channel"
         @cli.text_channel(@@cmd.target, @@cmd.msg)
       end

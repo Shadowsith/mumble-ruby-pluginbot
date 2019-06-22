@@ -17,23 +17,27 @@
                     %a{"data-toggle" => "collapse", :href => "#cAddUser"} Add User
             #cAddUser.panel-collapse.collapse
               %hr
-              %form
+              %form{:method => "POST", :action => "/acc_add"}
                 .panel-body
                   .form-group
                     %label Name:
-                    %input.form-control
+                    %input.form-control{:name => "usr"}
                   .form-group
                     %label E-Mail:
-                    %input.form-control
+                    %input.form-control{:type => "email", :name => "email"}
                   .form-group
                     %label Password:
-                    %input.form-control
+                    %input.form-control{:name => "pwd", :type => "password"}
                   .form-group
                     %label Repeat Password:
-                    %input.form-control
+                    %input.form-control{:name => "rptpwd", :type => "password"}
+                  .form-check
+                    %input.form-check-input{:type => "checkbox", :name => "admin"}
+                    %label.form-check-label  Is admin?
                 .panel-footer
+                  %br
                   %button.btn.btn-secondary Abort
-                  %button.btn.btn-success Add
+                  %button.btn.btn-success{:type => "submit"} Add
             %hr
             .panel-group
               .panel.panel-default
@@ -41,27 +45,37 @@
                   %h5.panel-title
                     %a{"data-toggle" => "collapse", :href => "#cChangeUser"} Change User
             #cChangeUser.panel-collapse.collapse
+              %b Note: 
+              Empty fields will not be changed!
               %hr
-              %form
+              %form{:method => "POST", :action => "/acc_cadmin"}
                 .panel-body
                   .form-group
                     %label Select User:
-                    %select.from-control
+                    %select.from-control{:name => "usr"}
+                      %option{:selected => "selected"} -select user-
+                      - for u in getAllUsr(session)
+                        %option #{u["usr"]}
                   .form-group
                     %label New Name:
-                    %input.form-control
+                    %input.form-control{:name => "new"}
                   .form-group
                     %label New Mail:
-                    %input.form-control
+                    %input.form-control{:name => "email", :type => "email"}
                   .form-group
-                    %label Password:
-                    %input.form-control
+                    %label New Password:
+                    %input.form-control{:name => "pwd", :type => "password"}
                   .form-group
-                    %label Repeat Password:
-                    %input.form-control
+                    %label Repeat New Password:
+                    %input.form-control{:name => "rptpwd", :type => "password"}
+                  .form-check
+                    %input.form-check-input{:type => "checkbox", :name => "admin"}
+                    %label.form-check-label  Is admin?
+
                 .panel-footer
+                  %br
                   %button.btn.btn-secondary Abort
-                  %button.btn.btn-warning Change
+                  %button.btn.btn-warning{:type => "submit"} Change
 
             %hr
             .panel-group
@@ -71,14 +85,41 @@
                     %a{"data-toggle" => "collapse", :href => "#cDelUser"} Delete User
             #cDelUser.panel-collapse.collapse
               %hr
-              %form
+              %form{:method => "POST", :action => "/acc_del"}
                 .panel-body
                   .form-group
                     %label Select User:
-                    %select.from-control
+                    %select.from-control{:name => "usr"}
+                      %option{:selected => "selected"} -select user-
+                      - for u in getAllUsr(session)
+                        %option #{u["usr"]}
+
                 .panel-footer
                   %button.btn.btn-secondary Abort
-                  %button.btn.btn-danger Delete
+                  %button.btn.btn-danger{:type => "submit"} Delete
+            %hr
+            .panel-group
+              .panel.panel-default
+                .panel-heading
+                  %h5.panel-title
+                    %a{"data-toggle" => "collapse", :href => "#cShowUser"} Show Users
+
+            #cShowUser.panel-collapse.collapse
+              %hr
+              .panel-body 
+                .form-group 
+                  %table.table
+                    %thead
+                      %tr
+                        %th{:scope => "col"} Name
+                        %th{:scope => "col"} E-Mail
+                        %th{:scope => "col"} Admin
+                    %tbody
+                      - for u in getAllUsr(session)
+                        %tr
+                          %td #{u["usr"]}
+                          %td #{u["email"]}
+                          %td #{u["isAdmin"]}
 
       .modal-footer
         %button.btn.btn-secondary{"data-dismiss" => "modal",

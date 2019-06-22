@@ -100,9 +100,15 @@ module Bot
           LaunchControl.stop_bots()
           script.store_call("$.announce.warning('Bots stopped!');")
           redirect "/index"
-        when "account_change"
+        when "acc_change"
           changeUserSettings(post, session)
           redirect "/index"
+        when "acc_add"
+          addUser(post, session)
+        when "acc_del"
+          deleteUser(post, session)
+        when "acc_cadmin"
+          changeUsrByAdmin(post, session)
         else
           redirect "/index"
           return

@@ -19,7 +19,8 @@ class Pluginbot < Sinatra::Base
   @@yml = Bot::YmlTemplate.new
   @@script = Bot::EScript.new
   @@plugins = Bot::PluginControl.new
-  @@console = Bot::WebConnector.new
+  @@console = Bot::WebConsole.new
+  # @@console.connect()
 
   @@msgBox = {
     :txt => "",

@@ -9,10 +9,10 @@
     %div#menu.collapse.navbar-collapse
       %ul.navbar-nav.mr-auto
         %li.nav-item.dropdown
-          %a#mdrop.nav-link.dropdown-toggle{:href => "#",
+          %a#config.nav-link.dropdown-toggle{:href => "#",
             :"data-toggle" => "dropdown", :"aria-haspopup" => "true", 
             :"aria-expanded" => "false"} Settings
-          %div.dropdown-menu{:"aria-labelledby" => "mdrop"}
+          %div.dropdown-menu{:"aria-labelledby" => "config"}
             %a.dropdown-item{:href => "/index"} Global
             %a.dropdown-item{:href => "/mpd"} MPD
             %a.dropdown-item{:href => "/youtube"} Youtube
@@ -31,12 +31,16 @@
             - yml.bots.each do |b|
               %a.dropdown-item{:href => "/#{b['mumble']['name']}"} 
                 #{b['mumble']['name']}
-        %li.nav-item
-          %a.nav-link{:href => "/plugins"} Plugins
+        %li.nav-item.dropdown
+          %a#misc.nav-link.dropdown-toggle{:href => "#",
+            :"data-toggle" => "dropdown", :"aria-haspopup" => "true", 
+            :"aria-expanded" => "false"} Misc
+          %div.dropdown-menu{:"aria-labelledby" => "misc"}
+            %a.dropdown-item{:href => "/plugins"} Plugins
+            %a.dropdown-item{:href => "/console"} Console
+            %a.dropdown-item{:href => "/log"} Log
         %li.nav-item
           %a.nav-link{:href => "/player"} Music Player
-        %li.nav-item
-          %a.nav-link{:href => "/log"} Log
         %li.nav-item
           %a.nav-link{:target => "_blank", 
             :href => "https://mumble-ruby-pluginbot.readthedocs.io/en/master/"}
