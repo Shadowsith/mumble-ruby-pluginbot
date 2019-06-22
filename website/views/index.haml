@@ -11,9 +11,9 @@
     - if session[:admin] == true
       = haml :admin_modal
 
+    // TODO, yaml settings only view for admins
     %div{:class => "container-fluid mt-3"}
       = haml :"#{session['index_content']}"
-
 
     %footer{:class => "fixed-bottom bg-danger text-center"}
       %a{:class => "text-light", :target => "_blank",

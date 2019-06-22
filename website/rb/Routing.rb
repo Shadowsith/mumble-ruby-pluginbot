@@ -58,6 +58,8 @@ module Bot
           haml :index
         when "plugins"
           haml :index
+        when "console"
+          haml :index
         when "logout"
           SessionHandler.logout(session)
           script.store_call("$.announce.info('Logged Out!')")
@@ -109,6 +111,12 @@ module Bot
           deleteUser(post, session)
         when "acc_cadmin"
           changeUsrByAdmin(post, session)
+        when "console_launch"
+          console.handleLaunch(post)
+          redirect "/console"
+        when "console_cmd"
+          console.handleMsg(post)
+          redirect "/console"
         else
           redirect "/index"
           return

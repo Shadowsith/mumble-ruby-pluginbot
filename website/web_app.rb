@@ -20,7 +20,6 @@ class Pluginbot < Sinatra::Base
   @@script = Bot::EScript.new
   @@plugins = Bot::PluginControl.new
   @@console = Bot::WebConsole.new
-  # @@console.connect()
 
   @@msgBox = {
     :txt => "",
@@ -59,6 +58,10 @@ class Pluginbot < Sinatra::Base
 
   def plugins
     return @@plugins
+  end
+
+  def console
+    return @@console
   end
 
   # Endpoints

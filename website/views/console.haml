@@ -1,0 +1,32 @@
+%h4 Web Console
+%p Control the bots via the web! 
+%hr
+.row
+  .col-12
+    %h5 Start/Stop Bot
+    .from-group
+      %form{:method => "POST", :action => "/console_launch"}
+        %button.btn.btn-primary{:type => "submit", 
+          :value => "start", :name => "launch"} Start
+        %button.btn.btn-warning{:type => "submit", 
+          :value => "stop", :name => "launch" } Stop
+%br
+.row
+  .col-12
+    %h5 Test cmd
+    .form-group 
+      %form{:method => "POST", :action => "/console_cmd"}
+        %label Event:
+        %select.form-control
+          %option{:selected => "selected"} --Choose Event--
+          %option{:value => "channel"} Channel Message
+          %option{:value => "user"} User Message
+
+        %label{:style => "display: none"} Target
+        %select.form-control{:style => "display: none"}
+          
+        %label Message:
+        %input.form-control{:name => "msg"} 
+        %button.btn.btn-primary{:type => "submit"} Submit
+
+

@@ -176,7 +176,8 @@ module Bot
                 if u["usr"] == post[:usr]
                   u["usr"] = post[:new] if not post[:new].empty?
                   u["email"] = post[:email] if not post[:email].empty?
-                  u["pwd"] = Digest::SHA512.hexdigest(post[:pwd])
+                  u["pwd"] = Digest::SHA512.hexdigest(post[:pwd]) if
+                    not post[:pwd].empty
                   u["isAdmin"] = post[:admin] == "on"
                   break
                 end

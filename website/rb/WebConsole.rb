@@ -5,23 +5,26 @@ module Bot
   class WebConsole
     private
 
-    @@cmd = Struct.new(:event, :target, :msg)
+    @@isStarted = false
 
     public
 
-    attr_accessor :web_console
+    # attr_accessor :cli
 
     def initialize()
-      @web_console = "Web_Console"
       @cli = Mumble::Client.new("maypi") do |conf|
         conf.username = "Web_Console"
         conf.password = Conf.gvalue("mumble:password")
       end
     end
 
+    def started?
+      return @@isStarted
+    end
+
     def connect()
       @cli.connect
-      sleep 2
+      max_connecting_time = 10
       while not @cli.connected?
         sleep(0.5)
         max_connecting_time -= 1
@@ -32,30 +35,13 @@ module Bot
       end
       @cli.on_connected do
         @cli.join_channel(Conf.gvalue("mumble:channel"))
-        run()
+        @@isStarted = true
       end
     end
 
     def disconnect()
-      @cli.disconnect
-    end
-
-    # TODO run in new task
-    def run()
-      while true
-        sleep 0.5
-        execCmd()
-      end
-    end
-
-    def execCmd()
-      case @@cmd.event
-      when "msg_user"
-        @cli.text_user(@@cmd.target, @@cmd.msg)
-      when "msg_channel"
-        @cli.text_channel(@@cmd.target, @@cmd.msg)
-      end
-      @@cmd.attributes.each { |a| a = "" }
+      @cli.disconnect if @cli.connected?
+      @@isStarted = false
     end
 
     def getUser()
@@ -77,6 +63,27 @@ module Bot
         i = i + 1
       end
       return arr
+    end
+
+    def handleLaunch(post)
+      if post[:launch] == "start"
+        puts "start console"
+        connect()
+      else
+        disconnect()
+      end
+    end
+
+    def handleMsg(post)
+      if @cli.connected?
+        post[:event] = "to_channel"
+        case post[:event]
+        when "to_user"
+          # @cli.text_user(usr, msg)
+        when "to_channel"
+          @cli.text_channel("Root", post[:msg])
+        end
+      end
     end
   end
 end
